@@ -1,4 +1,5 @@
-from image_converter import ImageConverter
+from PyQt4.QtGui import QColor
+from utils.logging import klog
 
 class ImageComparator(object):
     def __init__(self, image):
@@ -18,16 +19,18 @@ class ImageComparator(object):
         vectors = []
 
 
-        for block_x_num in range(0, self.image.width/block_size):
+        for block_x_num in range(0, self.image.width()/block_size):
             block_x_pos = block_size*block_x_num
 
-            for block_y_num in range(0, self.image.height/block_size):
+            for block_y_num in range(0, self.image.height()/block_size):
 
                 block_y_pos = block_size*block_y_num
 
-                (new_x, new_y, MAD) = ImageComparator.search_block(self.image, block_x_pos, block_y_pos, image2)
-                vector = { 'x': block_x_pos, 'y': block_y_pos, 'to_x' : new_x, 'to_y': new_y, 'MAD': MAD}
-                vectors.append(vector)
+                (new_x, new_y, MAD) = ImageComparator.search_block(self.image, block_x_pos, block_y_pos, image2, block_size, 4)
+
+                if (block_x_pos != new_x) or (block_y_pos != new_y):
+                    vector = { 'x': block_x_pos, 'y': block_y_pos, 'to_x' : new_x, 'to_y': new_y, 'MAD': MAD}
+                    vectors.append(vector)
 
         return vectors
 
@@ -35,12 +38,13 @@ class ImageComparator(object):
     @classmethod
     def search_block(cls, image1, x_start, y_start, image2, block_size=8, margin_size = 20):
 
-        best_MAD = None
+        best_MAD = 1000000
         best_x = None
         best_y = None
         subimage_1 = image1.copy(x_start, y_start, block_size, block_size)
 
         for py in range(y_start-margin_size, y_start+margin_size):
+
             if py < 0:
                 continue #il blocco esce in su dall'immagine, avanza con il prossimo py incrementato
 
@@ -49,18 +53,26 @@ class ImageComparator(object):
 
 
             for px in range(x_start-margin_size, x_start+margin_size):
+
+
                 if px < 0:
                     continue #il blocco esce a sinistra dall'immagine, avanza con il prossimo px incrementato
 
                 if px+block_size > image2.width():
                     break #il blocco esce a destra dall'immagine, esci
 
+                klog("Valuating block (%f,%f)" %(px, py))
+
                 #Create the subimages
                 subimage_2 = image2.copy(px, py, block_size, block_size)
 
                 #Calculate the MAD
                 MAD = ImageComparator.calculate_MAD(subimage_1, subimage_2)
+
+                klog("MAD found: %f" % MAD)
+
                 if MAD < best_MAD:
+                    klog("Best MAD found: %f, at (%f,%f)" % (MAD, px, py))
                     best_MAD = MAD
                     best_x = px
                     best_y = py
@@ -80,8 +92,8 @@ class ImageComparator(object):
         for x in range(1, width):
             for y in range(1, height):
 
-                luminance_1 = image1.pixel(x,y).redF() #is already in luminance mode (red=green=blue)
-                luminance_2 = image2.pixel(x,y).redF() #already in luminance mode (red=green=blue)
+                luminance_1 = QColor.fromRgb(image1.pixel(x,y)).redF() #is already in luminance mode (red=green=blue)
+                luminance_2 = QColor.fromRgb(image2.pixel(x,y)).redF() #already in luminance mode (red=green=blue)
 
                 sum_MAD += abs( luminance_1-luminance_2 )
 
