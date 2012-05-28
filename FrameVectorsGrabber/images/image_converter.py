@@ -1,6 +1,9 @@
 from PyQt4.QtGui import QImage, QColor
 
 
+Kb = 0.0722
+Kr = 0.212
+
 class ImageConverter(object):
 
     @classmethod
@@ -24,7 +27,8 @@ class ImageConverter(object):
     @classmethod
     def luminance_qrgb(cls, qrgb):
         qcolor = QColor(qrgb)
-        y = qcolor.redF()*0.299 + qcolor.greenF()*0.587 + qcolor.blueF()*0.114
+        y = qcolor.redF()*Kr + (1-Kr-Kb)*qcolor.greenF() + qcolor.blueF()*Kb
         new_color = QColor()
         new_color.setRgbF(y, y, y)
         return new_color.rgb()
+
