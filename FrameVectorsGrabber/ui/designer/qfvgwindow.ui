@@ -99,6 +99,19 @@
      <string>Show only luminance</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="findVectorsPushButton">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>380</y>
+      <width>114</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Find vectors</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

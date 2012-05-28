@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer/qfvgwindow.ui'
 #
-# Created: Sun May 27 15:58:42 2012
+# Created: Sun May 27 21:15:31 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -41,6 +41,9 @@ class Ui_MainWindow(object):
         self.showLuminanceCheckBox = QtGui.QCheckBox(self.centralwidget)
         self.showLuminanceCheckBox.setGeometry(QtCore.QRect(20, 350, 171, 20))
         self.showLuminanceCheckBox.setObjectName(_fromUtf8("showLuminanceCheckBox"))
+        self.findVectorsPushButton = QtGui.QPushButton(self.centralwidget)
+        self.findVectorsPushButton.setGeometry(QtCore.QRect(480, 380, 114, 32))
+        self.findVectorsPushButton.setObjectName(_fromUtf8("findVectorsPushButton"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 640, 22))
@@ -60,4 +63,5 @@ class Ui_MainWindow(object):
         self.chooseFrame1PushButton.setText(QtGui.QApplication.translate("MainWindow", "Choose frame #1", None, QtGui.QApplication.UnicodeUTF8))
         self.chooseFrame2PushButton.setText(QtGui.QApplication.translate("MainWindow", "Choose frame #2", None, QtGui.QApplication.UnicodeUTF8))
         self.showLuminanceCheckBox.setText(QtGui.QApplication.translate("MainWindow", "Show only luminance", None, QtGui.QApplication.UnicodeUTF8))
+        self.findVectorsPushButton.setText(QtGui.QApplication.translate("MainWindow", "Find vectors", None, QtGui.QApplication.UnicodeUTF8))
 
