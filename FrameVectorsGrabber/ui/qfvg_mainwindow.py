@@ -1,6 +1,8 @@
-from PyQt4.QtGui import QMainWindow, QFileDialog, QImage, QGraphicsScene, QPainter, QPixmap
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import *
 from qfvg_mainwindow_ui import Ui_MainWindow
 from images.image_converter import ImageConverter
+from images.image_comparator import ImageComparator
 
 
 class QFVGMainWindow(QMainWindow):
@@ -25,6 +27,16 @@ class QFVGMainWindow(QMainWindow):
         self.ui.chooseFrame2PushButton.clicked.connect(self._choose_frame2)
         self.ui.showLuminanceCheckBox.clicked.connect(self._show_frame_luminance)
         self.ui.findVectorsPushButton.clicked.connect(self._find_frame_vectors)
+
+        self._load_sample_images_from_HD()
+
+    def _load_sample_images_from_HD(self):
+        self.image_1 = QImage("samples/images/car/car1.png")
+        self._draw_frame(self.image_1, self.ui.frame1GraphicsView)
+
+        self.image_2 = QImage("samples/images/car/car2.png")
+        self._draw_frame(self.image_2, self.ui.frame2GraphicsView)
+
 
 
     def _choose_frame1(self):
@@ -84,8 +96,25 @@ class QFVGMainWindow(QMainWindow):
 
     def _find_frame_vectors(self):
         if self.get_image1_luminance() and self.get_image2_luminance():
-            pass
+            comp = ImageComparator(self.image_1_luminance)
 
+            vectors = comp.get_motion_vectors(self.image_2_luminance, 8)
+            self._draw_motion_vectors(vectors)
 
+    def _draw_motion_vectors(self, vectors):
+        scene = self.ui.frame2GraphicsView.scene()
+
+        pen = QPen(Qt.red, 2, Qt.SolidLine)
+
+        for v in vectors:
+            x = int(v["x"])
+            y = int(v["y"])
+            to_x = int(v["to_x"])
+            to_y = int(v["to_y"])
+
+            print "(%d, %d) => (%d, %d)" % (x,y, to_x, to_y)
+
+            if scene:
+                scene.addLine(x,y,to_x, to_y, pen)
 
 
