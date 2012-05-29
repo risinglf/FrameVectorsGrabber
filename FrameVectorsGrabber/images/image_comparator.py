@@ -5,7 +5,7 @@ class ImageComparator(object):
     def __init__(self, image):
         self.image = image
 
-    def get_motion_vectors(self, image2, block_size = 8):
+    def get_motion_vectors(self, image2, block_size = 8, search_window_size = 10):
         '''
         1)  Divide self.image into blocks of 8x8 pixels
         2)  for each block:
@@ -26,17 +26,17 @@ class ImageComparator(object):
 
                 block_y_pos = block_size*block_y_num
 
-                (new_x, new_y, MAD) = ImageComparator.search_block(self.image, block_x_pos, block_y_pos, image2, block_size, 4)
+                (new_x, new_y, MAD) = ImageComparator.search_block(self.image, block_x_pos, block_y_pos, image2, block_size, search_window_size)
 
-                if (block_x_pos != new_x) or (block_y_pos != new_y):
-                    vector = { 'x': block_x_pos, 'y': block_y_pos, 'to_x' : new_x, 'to_y': new_y, 'MAD': MAD}
-                    vectors.append(vector)
+                #if (block_x_pos != new_x) or (block_y_pos != new_y):
+                vector = { 'x': block_x_pos, 'y': block_y_pos, 'to_x' : new_x, 'to_y': new_y, 'MAD': MAD}
+                vectors.append(vector)
 
         return vectors
 
 
     @classmethod
-    def search_block(cls, image1, x_start, y_start, image2, block_size=8, margin_size = 20):
+    def search_block(cls, image1, x_start, y_start, image2, block_size, margin_size):
 
         best_MAD = 1000000
         best_x = None

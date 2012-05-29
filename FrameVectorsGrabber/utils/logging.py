@@ -1,6 +1,6 @@
 __author__ = 'luca'
 
-DEBUG = False
+DEBUG = True
 
 def klog(text):
     if DEBUG:
