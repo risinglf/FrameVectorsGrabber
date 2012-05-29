@@ -32,3 +32,14 @@ class ImageConverter(object):
         new_color.setRgbF(y, y, y)
         return new_color.rgb()
 
+    @classmethod
+    def draw_image_into_image(cls, source, destination, dest_x, dest_y):
+        '''
+        Draw the source image into x,y pos of destination
+        '''
+
+        for x in range(0, source.width()):
+            for y in range(0, source.height()):
+                source_pixel = source.pixel(x,y)
+                destination.setPixel(x+dest_x, y+dest_y, source_pixel)
+
