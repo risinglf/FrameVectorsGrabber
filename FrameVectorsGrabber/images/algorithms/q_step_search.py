@@ -1,6 +1,7 @@
 __author__ = 'luca'
 
 from images.image_comparator import ImageComparator
+from utils.logging import klog
 
 class QStepSearch(object):
     def __init__(self, block_size, pass_step = 6):
@@ -26,15 +27,26 @@ class QStepSearch(object):
         best_x = -1
         best_y = -1
 
+        klog("Check block from %d, %d" %(x_start, y_start))
+
         while ds >= 1:
             for x in [xs, xs+ds, xs-ds]:
-                for y in [ys, ys+ds, ys+ds]:
+
+                if not ImageComparator.is_valid_x_coordinate(x, block_size, image2):
+                    continue
+
+                for y in [ys, ys+ds, ys-ds]:
+
+                    if not ImageComparator.is_valid_y_coordinate(y, block_size, image2):
+                        continue
+
 
                     #Create the subimages
                     subimage_2 = image2.copy(x, y, block_size, block_size)
 
                     #Calculate the MAD
                     MAD = ImageComparator.calculate_MAD(subimage_1, subimage_2)
+                    klog("%d,%d\t\t\t\tMAD-> %f" %(x,y, MAD))
 
                     if MAD < best_local_MAD:
                         best_local_MAD = MAD
@@ -50,5 +62,5 @@ class QStepSearch(object):
             ds -= 1
             xs = xs_min
             ys = ys_min
-
+        print "-"
         return best_x, best_y, best_global_MAD
