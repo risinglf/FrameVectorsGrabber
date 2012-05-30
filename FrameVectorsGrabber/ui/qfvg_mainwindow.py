@@ -36,8 +36,8 @@ class QFVGMainWindow(QMainWindow):
         self.ui.findVectorsPushButton.clicked.connect(self._find_frame_vectors)
         self.ui.reconstructFrame2PushButton.clicked.connect(self._draw_compressed_frame2)
         self.ui.searchTypeComboBox.currentIndexChanged.connect(self._show_hide_search_parameters)
-        self.ui.zoomInPushButton.clicked.connect(self._zoom_in_frame2)
-        self.ui.zoomOutPushButton.clicked.connect(self._zoom_out_frame2)
+        self.ui.zoomInPushButton.clicked.connect(self._zoom_in_views)
+        self.ui.zoomOutPushButton.clicked.connect(self._zoom_out_views)
 
         self._show_hide_search_parameters(0)
         self._load_sample_images_from_HD()
@@ -228,13 +228,17 @@ class QFVGMainWindow(QMainWindow):
             self.ui.searchWindowSizeLabel.hide()
             self.ui.searchWindowSizeSpinBox.hide()
 
-    def _zoom_in_frame2(self):
+    def _zoom_in_views(self):
         self.ui.frame1GraphicsView.scale(2, 2)
         self.ui.frame2GraphicsView.scale(2, 2)
+        self.ui.frame2CompressedGraphicsView.scale(2, 2)
+        self.ui.frame2ReconstructedGraphicsView.scale(2, 2)
 
-    def _zoom_out_frame2(self):
+    def _zoom_out_views(self):
         self.ui.frame1GraphicsView.scale(0.5, 0.5)
         self.ui.frame2GraphicsView.scale(0.5, 0.5)
+        self.ui.frame2CompressedGraphicsView.scale(0.5, 0.5)
+        self.ui.frame2ReconstructedGraphicsView.scale(0.5, 0.5)
 
     def get_block_size(self):
         return self.ui.blockSizeSpinBox.value()

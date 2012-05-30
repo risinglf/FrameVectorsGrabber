@@ -114,6 +114,9 @@
       <height>192</height>
      </rect>
     </property>
+    <property name="dragMode">
+     <enum>QGraphicsView::ScrollHandDrag</enum>
+    </property>
    </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
@@ -136,6 +139,9 @@
       <width>256</width>
       <height>192</height>
      </rect>
+    </property>
+    <property name="dragMode">
+     <enum>QGraphicsView::ScrollHandDrag</enum>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">

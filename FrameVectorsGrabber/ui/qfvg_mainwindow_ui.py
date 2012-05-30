@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer/qfvgwindow.ui'
 #
-# Created: Wed May 30 19:14:46 2012
+# Created: Wed May 30 19:22:47 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -45,12 +45,14 @@ class Ui_MainWindow(object):
         self.showLuminanceCheckBox.setObjectName(_fromUtf8("showLuminanceCheckBox"))
         self.frame2CompressedGraphicsView = QtGui.QGraphicsView(self.centralwidget)
         self.frame2CompressedGraphicsView.setGeometry(QtCore.QRect(560, 50, 256, 192))
+        self.frame2CompressedGraphicsView.setDragMode(QtGui.QGraphicsView.ScrollHandDrag)
         self.frame2CompressedGraphicsView.setObjectName(_fromUtf8("frame2CompressedGraphicsView"))
         self.label_3 = QtGui.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(560, 30, 161, 16))
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.frame2ReconstructedGraphicsView = QtGui.QGraphicsView(self.centralwidget)
         self.frame2ReconstructedGraphicsView.setGeometry(QtCore.QRect(840, 50, 256, 192))
+        self.frame2ReconstructedGraphicsView.setDragMode(QtGui.QGraphicsView.ScrollHandDrag)
         self.frame2ReconstructedGraphicsView.setObjectName(_fromUtf8("frame2ReconstructedGraphicsView"))
         self.label_4 = QtGui.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(840, 30, 161, 16))
