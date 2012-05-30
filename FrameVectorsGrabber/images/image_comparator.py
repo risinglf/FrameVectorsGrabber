@@ -55,3 +55,11 @@ class ImageComparator(object):
                 sum_MAD += abs( luminance_1-luminance_2 )
 
         return sum_MAD/(width*height)
+
+    @classmethod
+    def is_valid_x_coordinate(cls, x, block_size, image):
+        return x >=0 and x+block_size <= image.width()
+
+    @classmethod
+    def is_valid_y_coordinate(cls, y, block_size, image):
+        return y >=0 and y+block_size <= image.height()
