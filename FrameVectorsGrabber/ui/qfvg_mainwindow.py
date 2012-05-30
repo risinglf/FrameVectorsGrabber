@@ -3,6 +3,8 @@ from PyQt4.QtGui import *
 from qfvg_mainwindow_ui import Ui_MainWindow
 from images.image_converter import ImageConverter
 from images.image_comparator import ImageComparator
+from images.algorithms.full_search import FullSearch
+from images.algorithms.q_step_search import QStepSearch
 from utils.logging import klog
 import time
 
@@ -68,9 +70,12 @@ class QFVGMainWindow(QMainWindow):
 
     def _draw_frame(self, image, graphics_view):
         if image:
-            scene = QGraphicsScene()
+            scene = graphics_view.scene()
+            if not scene:
+                scene = QGraphicsScene()
+                graphics_view.setScene(scene)
+
             scene.addPixmap(QPixmap.fromImage(image))
-            graphics_view.setScene(scene)
 
     def _show_frame_luminance(self):
         if self.ui.showLuminanceCheckBox.isChecked():
@@ -106,15 +111,28 @@ class QFVGMainWindow(QMainWindow):
 
             start_time = time.time()
 
-            self.vectors = comp.get_motion_vectors(self.image_2_luminance, self.get_block_size(), self.get_search_window_size())
+            search_type = self.ui.searchTypeComboBox.currentText()
+            if search_type == "Full search":
+                searcher = FullSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchWindowSizeSpinBox.value())
+            elif search_type == "Q-Step search":
+                searcher = QStepSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
+            else:
+                searcher = None
 
-            elasped_time = time.time() - start_time
-            self.ui.searchElapsedTimeLabel.setText("%.2f seconds" %elasped_time)
+            if searcher:
+                self.vectors = comp.get_motion_vectors(self.image_2_luminance, searcher)
 
-            self._draw_motion_vectors()
+                elasped_time = time.time() - start_time
+                self.ui.searchElapsedTimeLabel.setText("%.2f seconds" %elasped_time)
+
+                self._draw_motion_vectors()
+                self._draw_compressed_frame2()
+
 
     def _draw_motion_vectors(self):
         scene = self.ui.frame2GraphicsView.scene()
+        scene.clear()
+        self._draw_frame(self.image_2, self.ui.frame2GraphicsView)
 
         pen = QPen(Qt.red, 1, Qt.SolidLine)
 
@@ -131,12 +149,10 @@ class QFVGMainWindow(QMainWindow):
                 if MAD < self.ui.MADThresholdSpingBox.value() and (x != to_x or y != to_y):
                     scene.addLine(x,y,to_x, to_y, pen)
 
-        self._draw_compressed_frame2()
-
-
     def _draw_compressed_frame2(self):
         if len(self.vectors) > 0:
 
+            self._draw_motion_vectors()
             zero_vectors_blocks_count = 0
             new_blocks_count = 0
             moved_vectors_blocks_count = 0
