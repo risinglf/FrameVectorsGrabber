@@ -6,7 +6,7 @@ class ImageComparator(object):
         self.image = image
 
     def get_motion_vectors(self, image2, block_size = 8, search_window_size = 10):
-        '''
+        """
         1)  Divide self.image into blocks of 8x8 pixels
         2)  for each block:
         4)      get the X and Y
@@ -14,7 +14,7 @@ class ImageComparator(object):
         6)      block found?
         7)          if yes, get the new X and Y
         8)          if no, return 0
-        '''
+        """
 
         vectors = []
 
@@ -26,7 +26,8 @@ class ImageComparator(object):
 
                 block_y_pos = block_size*block_y_num
 
-                (new_x, new_y, MAD) = ImageComparator.search_block(self.image, block_x_pos, block_y_pos, image2, block_size, search_window_size)
+                (new_x, new_y, MAD) = ImageComparator.full_search_block(self.image, block_x_pos, block_y_pos, image2, block_size, search_window_size)
+                #(new_x, new_y, MAD) = ImageComparator.q_step_search_block(self.image, block_x_pos, block_y_pos, image2, block_size)
 
                 #if (block_x_pos != new_x) or (block_y_pos != new_y):
                 vector = { 'x': block_x_pos, 'y': block_y_pos, 'to_x' : new_x, 'to_y': new_y, 'MAD': MAD}
@@ -34,9 +35,53 @@ class ImageComparator(object):
 
         return vectors
 
+    @classmethod
+    def q_step_search_block(cls, image1, x_start, y_start, image2, block_size, pass_step = 6):
+
+        subimage_1 = image1.copy(x_start, y_start, block_size, block_size)
+
+        p = pass_step
+        ds = p/2
+        s = 1
+        xs = x_start
+        ys = y_start
+        xs_min = -1
+        ys_min = -1
+        best_local_MAD = 10000
+        best_global_MAD = 10000
+        best_x = -1
+        best_y = -1
+
+        while ds >= 1:
+            for x in [xs, xs+ds, xs-ds]:
+                for y in [ys, ys+ds, ys+ds]:
+
+                    #Create the subimages
+                    subimage_2 = image2.copy(x, y, block_size, block_size)
+
+                    #Calculate the MAD
+                    MAD = ImageComparator.calculate_MAD(subimage_1, subimage_2)
+
+                    if MAD < best_local_MAD:
+                        best_local_MAD = MAD
+                        xs_min = x
+                        ys_min = y
+
+                    #Check if the local MAD is the best global MAD
+                    if MAD < best_global_MAD:
+                        best_global_MAD = MAD
+                        best_x = x
+                        best_y = y
+            s += 1
+            ds -= 1
+            xs = xs_min
+            ys = ys_min
+
+        return best_x, best_y, best_global_MAD
+
 
     @classmethod
-    def search_block(cls, image1, x_start, y_start, image2, block_size, margin_size):
+    def full_search_block(cls, image1, x_start, y_start, image2, block_size, margin_size):
 
         best_MAD = 1000000
         best_x = None
@@ -61,7 +106,7 @@ class ImageComparator(object):
                 if px+block_size > image2.width():
                     break #il blocco esce a destra dall'immagine, esci
 
-                klog("Valuating block (%f,%f)" %(px, py))
+                #klog("Valuating block (%f,%f)" %(px, py))
 
                 #Create the subimages
                 subimage_2 = image2.copy(px, py, block_size, block_size)
@@ -69,15 +114,15 @@ class ImageComparator(object):
                 #Calculate the MAD
                 MAD = ImageComparator.calculate_MAD(subimage_1, subimage_2)
 
-                klog("MAD found: %f" % MAD)
+                #klog("MAD found: %f" % MAD)
 
                 if MAD < best_MAD:
-                    klog("Best MAD found: %f, at (%f,%f)" % (MAD, px, py))
+                    #klog("Best MAD found: %f, at (%f,%f)" % (MAD, px, py))
                     best_MAD = MAD
                     best_x = px
                     best_y = py
 
-        return (best_x, best_y, best_MAD)
+        return best_x, best_y, best_MAD
 
     @classmethod
     def calculate_MAD(cls, image1, image2):

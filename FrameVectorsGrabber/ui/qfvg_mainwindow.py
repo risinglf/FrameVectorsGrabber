@@ -4,6 +4,7 @@ from qfvg_mainwindow_ui import Ui_MainWindow
 from images.image_converter import ImageConverter
 from images.image_comparator import ImageComparator
 from utils.logging import klog
+import time
 
 
 class QFVGMainWindow(QMainWindow):
@@ -30,9 +31,12 @@ class QFVGMainWindow(QMainWindow):
         self.ui.chooseFrame2PushButton.clicked.connect(self._choose_frame2)
         self.ui.showLuminanceCheckBox.clicked.connect(self._show_frame_luminance)
         self.ui.findVectorsPushButton.clicked.connect(self._find_frame_vectors)
-        self.ui.reconstructFrame2PushButton.clicked.connect(self._drawCompressedFrame2)
+        self.ui.reconstructFrame2PushButton.clicked.connect(self._draw_compressed_frame2)
+        self.ui.searchTypeComboBox.currentIndexChanged.connect(self._show_hide_search_parameters)
 
+        self._show_hide_search_parameters(0)
         self._load_sample_images_from_HD()
+
 
     def _load_sample_images_from_HD(self):
         self.image_1 = QImage("samples/images/car/car1.png")
@@ -100,7 +104,13 @@ class QFVGMainWindow(QMainWindow):
         if self.get_image1_luminance() and self.get_image2_luminance():
             comp = ImageComparator(self.image_1_luminance)
 
+            start_time = time.time()
+
             self.vectors = comp.get_motion_vectors(self.image_2_luminance, self.get_block_size(), self.get_search_window_size())
+
+            elasped_time = time.time() - start_time
+            self.ui.searchElapsedTimeLabel.setText("%.2f seconds" %elasped_time)
+
             self._draw_motion_vectors()
 
     def _draw_motion_vectors(self):
@@ -118,13 +128,13 @@ class QFVGMainWindow(QMainWindow):
             klog( "(%d, %d) => (%d, %d)" % (x,y, to_x, to_y) )
 
             if scene:
-                if MAD < self.ui.MADThresholdSpingBox.value() and (x != to_x or y == to_y):
+                if MAD < self.ui.MADThresholdSpingBox.value() and (x != to_x or y != to_y):
                     scene.addLine(x,y,to_x, to_y, pen)
 
-        self._drawCompressedFrame2()
+        self._draw_compressed_frame2()
 
 
-    def _drawCompressedFrame2(self):
+    def _draw_compressed_frame2(self):
         if len(self.vectors) > 0:
 
             zero_vectors_blocks_count = 0
@@ -158,7 +168,7 @@ class QFVGMainWindow(QMainWindow):
 
                         scene.addRect(x, y, self.get_block_size(), self.get_block_size(), movedBlockPen, QBrush(Qt.green, Qt.SolidPattern))
 
-                        moved_block_image = self.image_2.copy(x,y, self.get_block_size(), self.get_block_size())
+                        moved_block_image = self.image_1.copy(x,y, self.get_block_size(), self.get_block_size())
                         ImageConverter.draw_image_into_image(moved_block_image, image2_new, to_x, to_y)
                     else:
                         #A new block of the frame is needed
@@ -181,12 +191,23 @@ class QFVGMainWindow(QMainWindow):
             self.ui.movedVectorsPercentLabel.setText("%d %%" % moved_vectors_blocks_percent)
             self.ui.compressionRatioLabel.setText("%d %%" %compression_ratio)
 
+    def _show_hide_search_parameters(self, search_type):
+        if search_type == 0:
+            #Full search
+            self.ui.searchStepLabel.hide()
+            self.ui.searchStepSpinBox.hide()
+            self.ui.searchWindowSizeLabel.show()
+            self.ui.searchWindowSizeSpinBox.show()
+
+        elif search_type == 1:
+            self.ui.searchStepLabel.show()
+            self.ui.searchStepSpinBox.show()
+            self.ui.searchWindowSizeLabel.hide()
+            self.ui.searchWindowSizeSpinBox.hide()
+
 
     def get_block_size(self):
         return self.ui.blockSizeSpinBox.value()
 
     def get_search_window_size(self):
         return self.ui.searchWindowSizeSpinBox.value()
-
-    def _drawReconstructedFrame2(self):
-        pass

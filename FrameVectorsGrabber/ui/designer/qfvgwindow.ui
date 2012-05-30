@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1136</width>
-    <height>594</height>
+    <width>1139</width>
+    <height>633</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -151,7 +151,7 @@
       <x>20</x>
       <y>270</y>
       <width>521</width>
-      <height>171</height>
+      <height>221</height>
      </rect>
     </property>
     <property name="title">
@@ -177,9 +177,34 @@
       </layout>
      </item>
      <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>Search algorithm</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="searchTypeComboBox">
+         <item>
+          <property name="text">
+           <string>Full search</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Q-Step search</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QLabel" name="label_6">
+        <widget class="QLabel" name="searchWindowSizeLabel">
          <property name="text">
           <string>Search window size</string>
          </property>
@@ -191,7 +216,28 @@
           <number>100</number>
          </property>
          <property name="value">
-          <number>5</number>
+          <number>7</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLabel" name="searchStepLabel">
+         <property name="text">
+          <string>Step</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="searchStepSpinBox">
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="value">
+          <number>6</number>
          </property>
         </widget>
        </item>
@@ -229,7 +275,7 @@
       <x>560</x>
       <y>270</y>
       <width>531</width>
-      <height>280</height>
+      <height>311</height>
      </rect>
     </property>
     <property name="title">
@@ -331,14 +377,14 @@
      </item>
      <item>
       <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="0">
+       <item row="1" column="0">
         <widget class="QLabel" name="label_10">
          <property name="text">
           <string>% of zero vectors:</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item row="1" column="1">
         <widget class="QLabel" name="zeroVectorsPercentLabel">
          <property name="font">
           <font>
@@ -351,14 +397,14 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="label_11">
          <property name="text">
           <string>% of motion vectors:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="1">
         <widget class="QLabel" name="movedVectorsPercentLabel">
          <property name="font">
           <font>
@@ -371,14 +417,14 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="label_8">
          <property name="text">
           <string>% of new blocks:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <widget class="QLabel" name="newBlocksPercentLabel">
          <property name="font">
           <font>
@@ -391,20 +437,40 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="label_9">
          <property name="text">
           <string>Compresssion ratio:</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <widget class="QLabel" name="compressionRatioLabel">
          <property name="font">
           <font>
            <pointsize>23</pointsize>
            <weight>50</weight>
            <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Search time elapsed:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="searchElapsedTimeLabel">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
@@ -422,7 +488,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1136</width>
+     <width>1139</width>
      <height>22</height>
     </rect>
    </property>
