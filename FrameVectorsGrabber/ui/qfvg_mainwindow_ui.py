@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'designer/qfvgwindow.ui'
 #
-# Created: Wed May 30 12:08:22 2012
+# Created: Wed May 30 19:14:46 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,10 +27,12 @@ class Ui_MainWindow(object):
         self.label_2.setGeometry(QtCore.QRect(290, 30, 121, 16))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.frame1GraphicsView = QtGui.QGraphicsView(self.centralwidget)
-        self.frame1GraphicsView.setGeometry(QtCore.QRect(20, 51, 256, 191))
+        self.frame1GraphicsView.setGeometry(QtCore.QRect(20, 51, 256, 192))
+        self.frame1GraphicsView.setDragMode(QtGui.QGraphicsView.ScrollHandDrag)
         self.frame1GraphicsView.setObjectName(_fromUtf8("frame1GraphicsView"))
         self.frame2GraphicsView = QtGui.QGraphicsView(self.centralwidget)
         self.frame2GraphicsView.setGeometry(QtCore.QRect(290, 50, 256, 192))
+        self.frame2GraphicsView.setDragMode(QtGui.QGraphicsView.ScrollHandDrag)
         self.frame2GraphicsView.setObjectName(_fromUtf8("frame2GraphicsView"))
         self.chooseFrame1PushButton = QtGui.QPushButton(self.centralwidget)
         self.chooseFrame1PushButton.setGeometry(QtCore.QRect(190, 20, 91, 32))
@@ -75,6 +77,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.addWidget(self.label_12)
         self.searchTypeComboBox = QtGui.QComboBox(self.groupBox)
         self.searchTypeComboBox.setObjectName(_fromUtf8("searchTypeComboBox"))
+        self.searchTypeComboBox.addItem(_fromUtf8(""))
+        self.searchTypeComboBox.addItem(_fromUtf8(""))
         self.searchTypeComboBox.addItem(_fromUtf8(""))
         self.searchTypeComboBox.addItem(_fromUtf8(""))
         self.horizontalLayout_7.addWidget(self.searchTypeComboBox)
@@ -206,6 +210,22 @@ class Ui_MainWindow(object):
         self.searchElapsedTimeLabel.setObjectName(_fromUtf8("searchElapsedTimeLabel"))
         self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.searchElapsedTimeLabel)
         self.verticalLayout_2.addLayout(self.formLayout)
+        self.widget = QtGui.QWidget(self.centralwidget)
+        self.widget.setGeometry(QtCore.QRect(399, 240, 151, 32))
+        self.widget.setObjectName(_fromUtf8("widget"))
+        self.horizontalLayout_8 = QtGui.QHBoxLayout(self.widget)
+        self.horizontalLayout_8.setMargin(0)
+        self.horizontalLayout_8.setObjectName(_fromUtf8("horizontalLayout_8"))
+        self.label_13 = QtGui.QLabel(self.widget)
+        self.label_13.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_13.setObjectName(_fromUtf8("label_13"))
+        self.horizontalLayout_8.addWidget(self.label_13)
+        self.zoomInPushButton = QtGui.QPushButton(self.widget)
+        self.zoomInPushButton.setObjectName(_fromUtf8("zoomInPushButton"))
+        self.horizontalLayout_8.addWidget(self.zoomInPushButton)
+        self.zoomOutPushButton = QtGui.QPushButton(self.widget)
+        self.zoomOutPushButton.setObjectName(_fromUtf8("zoomOutPushButton"))
+        self.horizontalLayout_8.addWidget(self.zoomOutPushButton)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1139, 22))
@@ -230,8 +250,10 @@ class Ui_MainWindow(object):
         self.groupBox.setTitle(QtGui.QApplication.translate("MainWindow", "Motion vectors", None, QtGui.QApplication.UnicodeUTF8))
         self.label_7.setText(QtGui.QApplication.translate("MainWindow", "Block size", None, QtGui.QApplication.UnicodeUTF8))
         self.label_12.setText(QtGui.QApplication.translate("MainWindow", "Search algorithm", None, QtGui.QApplication.UnicodeUTF8))
-        self.searchTypeComboBox.setItemText(0, QtGui.QApplication.translate("MainWindow", "Full search", None, QtGui.QApplication.UnicodeUTF8))
-        self.searchTypeComboBox.setItemText(1, QtGui.QApplication.translate("MainWindow", "Q-Step search", None, QtGui.QApplication.UnicodeUTF8))
+        self.searchTypeComboBox.setItemText(0, QtGui.QApplication.translate("MainWindow", "Full", None, QtGui.QApplication.UnicodeUTF8))
+        self.searchTypeComboBox.setItemText(1, QtGui.QApplication.translate("MainWindow", "Q-Step", None, QtGui.QApplication.UnicodeUTF8))
+        self.searchTypeComboBox.setItemText(2, QtGui.QApplication.translate("MainWindow", "2D Logarithmic", None, QtGui.QApplication.UnicodeUTF8))
+        self.searchTypeComboBox.setItemText(3, QtGui.QApplication.translate("MainWindow", "Orthogonal", None, QtGui.QApplication.UnicodeUTF8))
         self.searchWindowSizeLabel.setText(QtGui.QApplication.translate("MainWindow", "Search window size", None, QtGui.QApplication.UnicodeUTF8))
         self.searchStepLabel.setText(QtGui.QApplication.translate("MainWindow", "Step", None, QtGui.QApplication.UnicodeUTF8))
         self.findVectorsPushButton.setText(QtGui.QApplication.translate("MainWindow", "Find vectors", None, QtGui.QApplication.UnicodeUTF8))
@@ -250,4 +272,7 @@ class Ui_MainWindow(object):
         self.compressionRatioLabel.setText(QtGui.QApplication.translate("MainWindow", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setText(QtGui.QApplication.translate("MainWindow", "Search time elapsed:", None, QtGui.QApplication.UnicodeUTF8))
         self.searchElapsedTimeLabel.setText(QtGui.QApplication.translate("MainWindow", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_13.setText(QtGui.QApplication.translate("MainWindow", "Zoom", None, QtGui.QApplication.UnicodeUTF8))
+        self.zoomInPushButton.setText(QtGui.QApplication.translate("MainWindow", "+", None, QtGui.QApplication.UnicodeUTF8))
+        self.zoomOutPushButton.setText(QtGui.QApplication.translate("MainWindow", "-", None, QtGui.QApplication.UnicodeUTF8))
 

@@ -5,6 +5,7 @@ from images.image_converter import ImageConverter
 from images.image_comparator import ImageComparator
 from images.algorithms.full_search import FullSearch
 from images.algorithms.q_step_search import QStepSearch
+from images.algorithms.logarithmic_2d_search import Logarithmic2DSearch
 from utils.logging import klog
 import time
 
@@ -35,16 +36,20 @@ class QFVGMainWindow(QMainWindow):
         self.ui.findVectorsPushButton.clicked.connect(self._find_frame_vectors)
         self.ui.reconstructFrame2PushButton.clicked.connect(self._draw_compressed_frame2)
         self.ui.searchTypeComboBox.currentIndexChanged.connect(self._show_hide_search_parameters)
+        self.ui.zoomInPushButton.clicked.connect(self._zoom_in_frame2)
+        self.ui.zoomOutPushButton.clicked.connect(self._zoom_out_frame2)
 
         self._show_hide_search_parameters(0)
         self._load_sample_images_from_HD()
 
 
     def _load_sample_images_from_HD(self):
-        self.image_1 = QImage("samples/images/car/car1.png")
+        #self.image_1 = QImage("samples/images/man/man1.png")
+        self.image_1 = QImage("samples/images/cat/cat1.png")
         self._draw_frame(self.image_1, self.ui.frame1GraphicsView)
 
-        self.image_2 = QImage("samples/images/car/car2.png")
+        #self.image_2 = QImage("samples/images/man/man2.png")
+        self.image_2 = QImage("samples/images/cat/cat2.png")
         self._draw_frame(self.image_2, self.ui.frame2GraphicsView)
 
     def _choose_frame1(self):
@@ -112,10 +117,12 @@ class QFVGMainWindow(QMainWindow):
             start_time = time.time()
 
             search_type = self.ui.searchTypeComboBox.currentText()
-            if search_type == "Full search":
+            if search_type == "Full":
                 searcher = FullSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchWindowSizeSpinBox.value())
-            elif search_type == "Q-Step search":
+            elif search_type == "Q-Step":
                 searcher = QStepSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
+            elif search_type == "2D Logarithmic":
+                searcher = Logarithmic2DSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
             else:
                 searcher = None
 
@@ -215,12 +222,19 @@ class QFVGMainWindow(QMainWindow):
             self.ui.searchWindowSizeLabel.show()
             self.ui.searchWindowSizeSpinBox.show()
 
-        elif search_type == 1:
+        else:
             self.ui.searchStepLabel.show()
             self.ui.searchStepSpinBox.show()
             self.ui.searchWindowSizeLabel.hide()
             self.ui.searchWindowSizeSpinBox.hide()
 
+    def _zoom_in_frame2(self):
+        self.ui.frame1GraphicsView.scale(2, 2)
+        self.ui.frame2GraphicsView.scale(2, 2)
+
+    def _zoom_out_frame2(self):
+        self.ui.frame1GraphicsView.scale(0.5, 0.5)
+        self.ui.frame2GraphicsView.scale(0.5, 0.5)
 
     def get_block_size(self):
         return self.ui.blockSizeSpinBox.value()
