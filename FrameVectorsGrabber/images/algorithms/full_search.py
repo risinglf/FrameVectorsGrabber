@@ -9,6 +9,7 @@ class FullSearch(object):
 
     def search(self, image1, x_start, y_start, image2):
 
+        MAD_checks_count = 0
         block_size = self.block_size
         margin_size = self.margin_size
         best_MAD = 1000000
@@ -41,6 +42,7 @@ class FullSearch(object):
 
                 #Calculate the MAD
                 MAD = ImageComparator.calculate_MAD(subimage_1, subimage_2)
+                MAD_checks_count += 1
 
                 #klog("MAD found: %f" % MAD)
 
@@ -50,4 +52,4 @@ class FullSearch(object):
                     best_x = px
                     best_y = py
 
-        return best_x, best_y, best_MAD
+        return best_x, best_y, best_MAD, MAD_checks_count

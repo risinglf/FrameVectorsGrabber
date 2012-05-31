@@ -26,11 +26,11 @@ class ImageComparator(object):
 
                 block_y_pos = searcher.block_size*block_y_num
 
-                (new_x, new_y, MAD) = searcher.search(self.image, block_x_pos, block_y_pos, image2)
+                (new_x, new_y, MAD, MAD_checks_count) = searcher.search(self.image, block_x_pos, block_y_pos, image2)
                 #(new_x, new_y, MAD) = ImageComparator.q_step_search_block(self.image, block_x_pos, block_y_pos, image2, block_size)
 
                 #if (block_x_pos != new_x) or (block_y_pos != new_y):
-                vector = { 'x': block_x_pos, 'y': block_y_pos, 'to_x' : new_x, 'to_y': new_y, 'MAD': MAD}
+                vector = { 'x': block_x_pos, 'y': block_y_pos, 'to_x' : new_x, 'to_y': new_y, 'MAD': MAD, 'MAD_checks_count': MAD_checks_count}
                 vectors.append(vector)
 
         return vectors

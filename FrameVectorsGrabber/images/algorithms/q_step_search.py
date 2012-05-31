@@ -15,6 +15,7 @@ class QStepSearch(object):
 
         subimage_1 = image1.copy(x_start, y_start, block_size, block_size)
 
+        MAD_checks_count = 0
         p = pass_step
         ds = p/2
         s = 1
@@ -46,6 +47,7 @@ class QStepSearch(object):
 
                     #Calculate the MAD
                     MAD = ImageComparator.calculate_MAD(subimage_1, subimage_2)
+                    MAD_checks_count += 1
                     klog("%d,%d\t\t\t\tMAD-> %f" %(x,y, MAD))
 
                     if MAD < best_local_MAD:
@@ -63,4 +65,4 @@ class QStepSearch(object):
             xs = xs_min
             ys = ys_min
         print "-"
-        return best_x, best_y, best_global_MAD
+        return best_x, best_y, best_global_MAD, MAD_checks_count
