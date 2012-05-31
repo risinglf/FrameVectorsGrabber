@@ -6,6 +6,7 @@ from images.image_comparator import ImageComparator
 from images.algorithms.full_search import FullSearch
 from images.algorithms.q_step_search import QStepSearch
 from images.algorithms.logarithmic_2d_search import Logarithmic2DSearch
+from images.algorithms.orthogonal_search import OrthogonalSearch
 from utils.logging import klog
 import time
 
@@ -123,6 +124,8 @@ class QFVGMainWindow(QMainWindow):
                 searcher = QStepSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
             elif search_type == "2D Logarithmic":
                 searcher = Logarithmic2DSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
+            elif search_type == "Orthogonal":
+                searcher = OrthogonalSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
             else:
                 searcher = None
 
@@ -213,6 +216,12 @@ class QFVGMainWindow(QMainWindow):
             self.ui.newBlocksPercentLabel.setText("%d %%" % new_blocks_percent)
             self.ui.movedVectorsPercentLabel.setText("%d %%" % moved_vectors_blocks_percent)
             self.ui.compressionRatioLabel.setText("%d %%" %compression_ratio)
+
+            total_mads_checked = 0
+            for v in self.vectors:
+                total_mads_checked += v["MAD_checks_count"]
+
+            self.ui.MADsCheckedLabel.setText("%d" %total_mads_checked)
 
     def _show_hide_search_parameters(self, search_type):
         if search_type == 0:
