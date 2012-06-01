@@ -45,12 +45,10 @@ class QFVGMainWindow(QMainWindow):
 
 
     def _load_sample_images_from_HD(self):
-        #self.image_1 = QImage("samples/images/man/man1.png")
-        self.image_1 = QImage("samples/images/cat/cat1.png")
+        self.image_1 = QImage("samples/images/coldplay/para1.png")
         self._draw_frame(self.image_1, self.ui.frame1GraphicsView)
 
-        #self.image_2 = QImage("samples/images/man/man2.png")
-        self.image_2 = QImage("samples/images/cat/cat2.png")
+        self.image_2 = QImage("samples/images/coldplay/para2.png")
         self._draw_frame(self.image_2, self.ui.frame2GraphicsView)
 
     def _choose_frame1(self):
