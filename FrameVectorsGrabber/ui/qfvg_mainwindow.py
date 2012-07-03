@@ -1,4 +1,4 @@
-from PyQt4.QtCore import Qt
+from PyQt4.QtCore import Qt, QPointF
 from PyQt4.QtGui import *
 from qfvg_mainwindow_ui import Ui_MainWindow
 from images.image_converter import ImageConverter
@@ -8,7 +8,7 @@ from images.algorithms.q_step_search import QStepSearch
 from images.algorithms.logarithmic_2d_search import Logarithmic2DSearch
 from images.algorithms.orthogonal_search import OrthogonalSearch
 from utils.logging import klog
-import time
+import time, math
 
 
 class QFVGMainWindow(QMainWindow):
@@ -138,8 +138,74 @@ class QFVGMainWindow(QMainWindow):
                 self._draw_motion_vectors()
                 self._draw_compressed_frame2()
 
-
     def _draw_motion_vectors(self):
+
+        sze = 3
+        scene = self.ui.frame2GraphicsView.scene()
+        scene.clear()
+        self._draw_frame(self.image_2, self.ui.frame2GraphicsView)
+
+        pen = QPen(Qt.red, 1, Qt.SolidLine)
+
+        for v in self.vectors:
+
+            x = int(v["x"])
+            y = int(v["y"])
+            to_x = int(v["to_x"])
+            to_y = int(v["to_y"])
+            MAD = v["MAD"]
+
+            klog( "(%d, %d) => (%d, %d)" % (x,y, to_x, to_y) )
+
+
+            if scene:
+                if MAD < self.ui.MADThresholdSpingBox.value() and (x != to_x or y != to_y):
+                    scene.addLine(x,y,to_x, to_y, pen)
+                    M_PI = math.pi
+                    curr_x = x - to_x
+                    curr_y = y - to_y
+                    if curr_x != 0 or curr_y != 0:#altrimenti la linea e lunga 0!!!
+                        alpha = math.atan2 (curr_y, curr_x)
+                        pa_x = sze * math.cos (alpha + M_PI / 7) + to_x
+                        pa_y = sze * math.sin (alpha + M_PI / 7) + to_y
+                        pb_x = sze * math.cos (alpha - M_PI / 7) + to_x
+                        pb_y = sze * math.sin (alpha - M_PI / 7) + to_y
+
+                        #scene.addLine(to_x, to_y,pa_x, pa_y)
+                        #scene.addLine(to_x, to_y,pb_x, pb_y)
+
+                        polygon = QPolygonF([QPointF(to_x-sze * math.cos (alpha), to_y-sze * math.sin (alpha)),QPointF(pa_x, pa_y),QPointF(pb_x, pb_y)])
+                        scene.addPolygon(polygon, pen)
+
+            '''
+            M_PI = math.pi
+            curr_x = to_x - x
+            curr_y = to_y - y
+            if curr_x == 0 and curr_y == 0:
+                pass
+            else:
+                tangent = math.atan2 (curr_y, curr_x)
+                pa_x = sze * math.cos (tangent + M_PI / 7) + x
+                pa_y = sze * math.sin (tangent + M_PI / 7) + y
+                pb_x = sze * math.cos (tangent - M_PI / 7) + x
+                pb_y = sze * math.sin (tangent - M_PI / 7) + y
+                #-- connect the dots...
+                CanvasLine* lhs = new CanvasLine( canvas );
+                lhs->setPoints( pa_x, pa_y, pt_x, pt_y );
+                lhs->setPen( pen );
+                lhs->setZ( 1 );
+                lhs->show();
+                SimpleCanvasLine* rhs = new SimpleCanvasLine( canvas, this );
+                rhs->setPoints( pb.x, pb.y, pt.x, pt.y );
+                rhs->setPen( pen );
+                lhs->setZ( 1 );
+                rhs->show();
+            '''
+
+
+
+
+    def _draw_motion_vectors_old(self):
         scene = self.ui.frame2GraphicsView.scene()
         scene.clear()
         self._draw_frame(self.image_2, self.ui.frame2GraphicsView)
