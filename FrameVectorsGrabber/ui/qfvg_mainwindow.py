@@ -75,10 +75,12 @@ class QFVGMainWindow(QMainWindow):
     def _draw_frame(self, image, graphics_view):
         if image:
             scene = graphics_view.scene()
+
             if not scene:
                 scene = QGraphicsScene()
                 graphics_view.setScene(scene)
 
+            scene.clear()
             scene.addPixmap(QPixmap.fromImage(image))
 
     def _show_frame_luminance(self):
