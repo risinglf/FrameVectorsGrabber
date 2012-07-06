@@ -104,6 +104,6 @@ class OrthogonalSearch(object):
             best_local_MAD = 10000 #reset
             best_local_a_MAD = 10000 #reset
 
-        print "-"
-        print "MADs check count: %d" %MAD_checks_count
+        klog("-")
+        klog("MADs check count: %d" %MAD_checks_count)
         return best_x, best_y, best_global_MAD, MAD_checks_count
