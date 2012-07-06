@@ -31,6 +31,7 @@ class Logarithmic2DSearch(object):
         best_y = -1
 
         while ds >= 1:
+
             if ds != 1:
 
                 for (x,y) in [(xs, ys), (xs-ds,ys), (xs+ds, ys), (xs, ys+ds), (xs,ys-ds)]:
@@ -61,15 +62,27 @@ class Logarithmic2DSearch(object):
                         best_x = x
                         best_y = y
 
+                s += 1
 
-            else:
-                for x in [xs, xs+1, xs-ds]:
+                #Check if the xs_min and ys_min are the central point of the fives checked
+                print "ds: %d" %ds
+                if xs_min == xs and ys_min == ys:
+                    ds = ds/2
+
+                xs = xs_min
+                ys = ys_min
+
+
+            else: #ds==1 last step
+
+                for x in [xs, xs+ds, xs-ds]:
+
                     if not ImageComparator.is_valid_x_coordinate(x, block_size, image2):
                         continue
 
                     for y in [ys, ys+ds, ys-ds]:
 
-                        #TODO: CODE HERE IS COPY-PASTED!! THIS SUCKS!
+                        #TODO: CODE HERE IS COPY-PASTED!! THIS SUCKS! secondo me va bene!
                         if not ImageComparator.is_valid_y_coordinate(y, block_size, image2):
                             continue
 
@@ -93,15 +106,11 @@ class Logarithmic2DSearch(object):
                             best_x = x
                             best_y = y
 
-            s += 1
+                ds = 0
 
-            #TODO: CHIEDERE!!!
-            #Check if the xs_min and ys_min are the central point of the fives checked
-            print "ds: %d" %ds
-            if xs_min == xs+ds and ys_min == ys:
-                ds = ds/2
+                s += 1
 
-            xs = xs_min
-            ys = ys_min
+                print "ds: %d" %ds
+
 
         return best_x, best_y, best_global_MAD, MAD_checks_count
