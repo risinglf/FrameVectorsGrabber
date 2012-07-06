@@ -98,7 +98,7 @@ class OrthogonalSearch(object):
 
             s += 1
             ds = math.ceil( ds/2 )
-            print "ds: %d" %(ds)
+            klog("ds: %d" %(ds))
             xs = xs_min
             ys = ys_min
             best_local_MAD = 10000 #reset
