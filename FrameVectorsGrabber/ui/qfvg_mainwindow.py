@@ -57,12 +57,16 @@ class QFVGMainWindow(QMainWindow):
         if QApplication.mouseButtons() & Qt.LeftButton:
             #Left button choose the Frame #1
             self.image_1 = model.data(index, Qt.DisplayRole).toImage()
+            self.image_1_luminance = None
+
             self._draw_frame(self.image_1, self.ui.frame1GraphicsView)
             QMessageBox(QMessageBox.Information, "Frame Choosed", "Frame 1 changed!").exec_()
 
         elif QApplication.mouseButtons() & Qt.RightButton:
             #Right button choose the Frame #2
             self.image_2 = model.data(index, Qt.DisplayRole).toImage()
+            self.image_2_luminance = None
+
             self._draw_frame(self.image_2, self.ui.frame2GraphicsView)
             QMessageBox(QMessageBox.Information, "Frame Choosed", "Frame 2 changed!").exec_()
 
@@ -159,6 +163,8 @@ class QFVGMainWindow(QMainWindow):
 
     def _find_frame_vectors(self):
         if self.get_image1_luminance() and self.get_image2_luminance():
+
+            klog("Evaluating image with size: %dx%d" %(self.get_image1_luminance().width(), self.get_image2_luminance().height() ))
             comp = ImageComparator(self.image_1_luminance)
 
             start_time = time.time()
