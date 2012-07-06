@@ -97,7 +97,10 @@ class QFVGMainWindow(QMainWindow):
     def get_image1_luminance(self):
         if self.image_1:
             if not self.image_1_luminance:
+                start_time = time.time()
                 self.image_1_luminance = ImageConverter.luminance_qimage(self.image_1)
+                klog("La conversione in luminanza ha impiegato: %.2f secondi" % (time.time()-start_time))
+
             return self.image_1_luminance
         else:
             return None
@@ -105,7 +108,9 @@ class QFVGMainWindow(QMainWindow):
     def get_image2_luminance(self):
         if self.image_2:
             if not self.image_2_luminance:
+                start_time = time.time()
                 self.image_2_luminance = ImageConverter.luminance_qimage(self.image_2)
+                klog("La conversione in luminanza ha impiegato: %.2f secondi" % (time.time()-start_time))
             return self.image_2_luminance
         else:
             return None
