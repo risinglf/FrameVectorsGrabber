@@ -50,6 +50,15 @@ class ImageConverter(object):
         return pil_img
 
     @classmethod
+    def sub_pixels(cls, image_pixels, x_start, y_start, x_finish, y_finish):
+        pixels = []
+        for _x in range(int(x_start), int(x_finish)):
+            for _y in range(int(y_start), int(y_finish)):
+                pixels.append(image_pixels[_x, _y])
+
+        return pixels
+
+    @classmethod
     def luminance_qrgb(cls, qrgb):
         qcolor = QColor(qrgb)
         y = qcolor.redF()*Kr + (1-Kr-Kb)*qcolor.greenF() + qcolor.blueF()*Kb
