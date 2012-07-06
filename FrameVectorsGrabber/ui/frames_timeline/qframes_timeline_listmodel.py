@@ -14,8 +14,10 @@ class QFramesTimelineListModel(QAbstractListModel):
         for file_name in os.listdir(frames_folder):
             if file_name.endswith(".png") or file_name.endswith(".jpg"):
                 self.frames_files.append(self.frames_folder+"/"+file_name)
-                if len(self.frames_files) > 1:
-                    break
+
+                #REMOVE ME, ONLY TO DEBUG
+                # if len(self.frames_files) > 1:
+                #    break
 
         super(QFramesTimelineListModel, self).__init__()
 

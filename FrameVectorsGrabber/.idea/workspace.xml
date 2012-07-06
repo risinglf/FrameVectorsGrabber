@@ -25,27 +25,7 @@
       <file leaf-file-name="qfvg_mainwindow.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ui/qfvg_mainwindow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="53" selection-start="2613" selection-end="2613" vertical-scroll-proportion="0.8410596">
-              <folding>
-                <element signature="e#0#27#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="q_step_search.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/images/algorithms/q_step_search.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="51" selection-start="72" selection-end="72" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="full_search.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/images/algorithms/full_search.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="8" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0">
+            <state line="143" column="105" selection-start="5735" selection-end="5735" vertical-scroll-proportion="0.10339257">
               <folding />
             </state>
           </provider>
@@ -54,7 +34,16 @@
       <file leaf-file-name="image_comparator.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/images/image_comparator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="1" selection-start="32" selection-end="32" vertical-scroll-proportion="0.0">
+            <state line="3" column="20" selection-start="84" selection-end="84" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orthogonal_search.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/images/algorithms/orthogonal_search.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="100" column="32" selection-start="3006" selection-end="3006" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -78,10 +67,16 @@
         <option value="$PROJECT_DIR$/ui/qfvgwindow.py" />
         <option value="$PROJECT_DIR$/frame_vectors_grabber.py" />
         <option value="$PROJECT_DIR$/utils/logging.py" />
-        <option value="$PROJECT_DIR$/images/image_converter.py" />
+        <option value="$PROJECT_DIR$/images/algorithms/2d_logarithmic_search.py" />
         <option value="$PROJECT_DIR$/images/algorithms/full_search.py" />
         <option value="$PROJECT_DIR$/images/algorithms/q_step_search.py" />
+        <option value="$PROJECT_DIR$/utils/ffmpeg.py" />
+        <option value="$PROJECT_DIR$/ui/frames_timeline/qframes_timeline_delegate.py" />
+        <option value="$PROJECT_DIR$/ui/frames_timeline/qframes_timeline_listmodel.py" />
         <option value="$PROJECT_DIR$/images/image_comparator.py" />
+        <option value="$PROJECT_DIR$/images/algorithms/logarithmic_2d_search.py" />
+        <option value="$PROJECT_DIR$/images/image_converter.py" />
+        <option value="$PROJECT_DIR$/images/algorithms/orthogonal_search.py" />
         <option value="$PROJECT_DIR$/ui/qfvg_mainwindow.py" />
       </list>
     </option>
@@ -118,7 +113,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -165,6 +159,64 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FrameVectorsGrabber" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FrameVectorsGrabber" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FrameVectorsGrabber" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FrameVectorsGrabber" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FrameVectorsGrabber" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FrameVectorsGrabber" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="frames_timeline" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FrameVectorsGrabber" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FrameVectorsGrabber" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FrameVectorsGrabber" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="images" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -193,6 +245,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -343,13 +396,13 @@
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928678" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26502964" sideWeight="0.5189681" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47192717" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32776934" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26119402" sideWeight="0.60698026" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2531753" sideWeight="0.43247345" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3262519" sideWeight="0.0" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24978831" sideWeight="0.32473445" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.48103186" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5675266" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -412,65 +465,99 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/__init__.py">
+    <entry file="file://$PROJECT_DIR$/utils/logging.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="2" column="12" selection-start="33" selection-end="33" vertical-scroll-proportion="0.050632913" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/algorithms/q_step_search.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="21" selection-start="512" selection-end="512" vertical-scroll-proportion="0.026229508" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/qfvg_mainwindow_ui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="19" selection-start="389" selection-end="389" vertical-scroll-proportion="0.6352357" />
+        <state line="250" column="29" selection-start="15017" selection-end="15033" vertical-scroll-proportion="0.33274958" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/algorithms/full_search.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="33" selection-start="122" selection-end="132" vertical-scroll-proportion="0.025316456" />
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/subprocess.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1201" column="0" selection-start="43461" selection-end="43461" vertical-scroll-proportion="0.3323782" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/frame_vectors_grabber.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="175" selection-end="175" vertical-scroll-proportion="0.2278481" />
+        <state line="14" column="0" selection-start="233" selection-end="233" vertical-scroll-proportion="0.3147541" />
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/PIL/Image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="511" column="0" selection-start="13272" selection-end="13272" vertical-scroll-proportion="0.63835615" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/frames_timeline/qframes_timeline_delegate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="19" selection-start="19" selection-end="19" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/ffmpeg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="290" selection-end="290" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/PIL/ImageQt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.0983607">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/images/image_converter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="56" selection-start="1353" selection-end="1353" vertical-scroll-proportion="0.0" />
+        <state line="13" column="24" selection-start="210" selection-end="210" vertical-scroll-proportion="0.13934426">
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/__init__.py">
+    <entry file="file://$PROJECT_DIR$/ui/frames_timeline/qframes_timeline_listmodel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="28" column="51" selection-start="925" selection-end="925" vertical-scroll-proportion="0.6819672">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/logging.py">
+    <entry file="file://$PROJECT_DIR$/images/algorithms/logarithmic_2d_search.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="12" selection-start="33" selection-end="33" vertical-scroll-proportion="0.050632913">
+        <state line="92" column="38" selection-start="3100" selection-end="3100" vertical-scroll-proportion="0.8227848">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/algorithms/orthogonal_search.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="100" column="32" selection-start="3006" selection-end="3006" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/images/image_comparator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="1" selection-start="32" selection-end="32" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/images/algorithms/q_step_search.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="51" selection-start="72" selection-end="72" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/images/algorithms/full_search.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="8" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0">
+        <state line="3" column="20" selection-start="84" selection-end="84" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/qfvg_mainwindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="53" selection-start="2613" selection-end="2613" vertical-scroll-proportion="0.8410596">
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
+        <state line="143" column="105" selection-start="5735" selection-end="5735" vertical-scroll-proportion="0.10339257">
+          <folding />
         </state>
       </provider>
     </entry>

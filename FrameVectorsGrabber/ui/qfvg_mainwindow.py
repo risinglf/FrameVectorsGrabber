@@ -8,6 +8,11 @@ from images.algorithms.q_step_search import QStepSearch
 from images.algorithms.logarithmic_2d_search import Logarithmic2DSearch
 from images.algorithms.orthogonal_search import OrthogonalSearch
 from utils.logging import klog
+from utils.ffmpeg import FFMpegWrapper
+from frames_timeline.qframes_timeline_listmodel import QFramesTimelineListModel
+from frames_timeline.qframes_timeline_delegate import QFramesTimelineDelegate
+
+
 import time
 
 
@@ -31,6 +36,7 @@ class QFVGMainWindow(QMainWindow):
         self.ui.setupUi(self)
 
         #Event handling
+        self.ui.actionOpen_video.triggered.connect(self._choose_video_file)
         self.ui.chooseFrame1PushButton.clicked.connect(self._choose_frame1)
         self.ui.chooseFrame2PushButton.clicked.connect(self._choose_frame2)
         self.ui.showLuminanceCheckBox.clicked.connect(self._show_frame_luminance)
@@ -43,12 +49,48 @@ class QFVGMainWindow(QMainWindow):
         self._show_hide_search_parameters(0)
         self._load_sample_images_from_HD()
 
+        self._draw_frames_timeline("/tmp/video_name/")
+        self.ui.framesTimelineListView.pressed.connect(self._frame_clicked)
+
+    def _frame_clicked(self, index):
+        model = self.ui.framesTimelineListView.model()
+
+        if QApplication.mouseButtons() & Qt.LeftButton:
+            #Left button choose the Frame #1
+            self.image_1 = model.data(index, Qt.DisplayRole).toImage()
+            self._draw_frame(self.image_1, self.ui.frame1GraphicsView)
+            QMessageBox(QMessageBox.Information, "Frame Choosed", "Frame 1 changed!").exec_()
+
+        elif QApplication.mouseButtons() & Qt.RightButton:
+            #Right button choose the Frame #2
+            self.image_2 = model.data(index, Qt.DisplayRole).toImage()
+            self._draw_frame(self.image_2, self.ui.frame2GraphicsView)
+            QMessageBox(QMessageBox.Information, "Frame Choosed", "Frame 2 changed!").exec_()
+
+
+    def _draw_frames_timeline(self, folder):
+        model = QFramesTimelineListModel(folder)
+        self.ui.framesTimelineListView.setModel(model)
+        self.ui.framesCountLabel.setText(str(model.rowCount(None)))
+
+        self.ui.framesTimelineListView.setItemDelegate( QFramesTimelineDelegate())
+
+    def _frames_created(self, success, frames_folder_path):
+        if success:
+            print "I frame sono stati creat in "+frames_folder_path
+            self._draw_frames_timeline(frames_folder_path)
+        else:
+            print "Qualcosa e andato storto"
+
+    def _choose_video_file(self):
+        input_file_name = QFileDialog.getOpenFileName(self, 'Open file')
+        FFMpegWrapper.generate_frames(self, input_file_name, "/tmp", self._frames_created)
 
     def _load_sample_images_from_HD(self):
-        self.image_1 = QImage("samples/images/coldplay/para1.png")
+        self.image_1 = QImage("samples/images/cat/cat1.png")
         self._draw_frame(self.image_1, self.ui.frame1GraphicsView)
 
-        self.image_2 = QImage("samples/images/coldplay/para2.png")
+        self.image_2 = QImage("samples/images/cat/cat2.png")
         self._draw_frame(self.image_2, self.ui.frame2GraphicsView)
 
     def _choose_frame1(self):
