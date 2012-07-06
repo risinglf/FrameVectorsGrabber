@@ -16,7 +16,7 @@ class FFMpegWrapper(object):
         process = QProcess(me)
         process.finished.connect(_check_callback_status)
 
-        process.start("/usr/local/bin/ffmpeg", ['-i', input_file_path,'-t', '5', '-ss', '00:01:30', frames_output_path])
+        process.start("/usr/local/bin/ffmpeg", ['-i', input_file_path,'-t', '5', frames_output_path])
         #process.startDetached("/usr/local/bin/ffmpeg", ['-i', input_file_path,'-t', '2', output_dir+'/video_name/Frame_%07d.'+frame_extension])
         #process.startDetached("/usr/local/bin/ffmpeg", ['-h'])
 
