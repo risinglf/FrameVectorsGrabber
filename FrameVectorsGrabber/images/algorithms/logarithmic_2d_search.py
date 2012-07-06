@@ -67,7 +67,7 @@ class Logarithmic2DSearch(object):
                     if not ImageComparator.is_valid_x_coordinate(x, block_size, image2):
                         continue
 
-                    for y in [ys, ys+ds, ys+ds]:
+                    for y in [ys, ys+ds, ys-ds]:
 
                         #TODO: CODE HERE IS COPY-PASTED!! THIS SUCKS!
                         if not ImageComparator.is_valid_y_coordinate(y, block_size, image2):
