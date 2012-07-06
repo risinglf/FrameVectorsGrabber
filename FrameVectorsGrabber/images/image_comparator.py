@@ -1,4 +1,5 @@
 from PyQt4.QtGui import QColor
+from images.image_converter import ImageConverter
 #from utils.logging import klog
 
 class ImageComparator(object):
@@ -16,18 +17,27 @@ class ImageComparator(object):
         8)          if no, return 0
         """
 
+
+        image1 = ImageConverter.qtimage_to_pil_image(self.image)
+        images1_pixels = image1.load()
+
+        image2 = ImageConverter.qtimage_to_pil_image(image2)
+        images2_pixels = image2.load()
+
+        width = image1.size[0]
+        height = image1.size[1]
+
         vectors = []
 
 
-        for block_x_num in range(0, self.image.width()/searcher.block_size):
+        for block_x_num in range(0, width/searcher.block_size):
             block_x_pos = searcher.block_size*block_x_num
 
-            for block_y_num in range(0, self.image.height()/searcher.block_size):
+            for block_y_num in range(0, height/searcher.block_size):
 
                 block_y_pos = searcher.block_size*block_y_num
 
-                (new_x, new_y, MAD, MAD_checks_count) = searcher.search(self.image, block_x_pos, block_y_pos, image2)
-                #(new_x, new_y, MAD) = ImageComparator.q_step_search_block(self.image, block_x_pos, block_y_pos, image2, block_size)
+                (new_x, new_y, MAD, MAD_checks_count) = searcher.search(images1_pixels, block_x_pos, block_y_pos, images2_pixels)
 
                 #if (block_x_pos != new_x) or (block_y_pos != new_y):
                 vector = { 'x': block_x_pos, 'y': block_y_pos, 'to_x' : new_x, 'to_y': new_y, 'MAD': MAD, 'MAD_checks_count': MAD_checks_count}
@@ -37,29 +47,47 @@ class ImageComparator(object):
 
 
     @classmethod
-    def calculate_MAD(cls, image1, image2):
-        if image1.width() != image2.width() or image1.height() != image2.height():
-            raise Exception("Images with different width or height")
+    def calculate_MAD_v2(cls, image1_pixels, image2_pixels):
+        sum_MAD = 0.0
+        pixels_count = len(image1_pixels)
+
+        for p in range(pixels_count):
+
+                luminance_1 = image1_pixels[p][0] #is already in luminance mode (red=green=blue)
+                luminance_2 = image2_pixels[p][0] #already in luminance mode (red=green=blue)
+
+                sum_MAD += abs( luminance_1-luminance_2 )
+
+        return sum_MAD/pixels_count
 
 
-        width = image1.width()
-        height = image1.height()
+    @classmethod
+    def calculate_MAD(cls, image1_pixels, image2_pixels, width, height):
         sum_MAD = 0.0
 
         for x in range(1, width):
             for y in range(1, height):
 
-                luminance_1 = QColor.fromRgb(image1.pixel(x,y)).redF() #is already in luminance mode (red=green=blue)
-                luminance_2 = QColor.fromRgb(image2.pixel(x,y)).redF() #already in luminance mode (red=green=blue)
+                luminance_1 = image1_pixels[x,y][0] #is already in luminance mode (red=green=blue)
+                luminance_2 = image2_pixels[x,y][0] #already in luminance mode (red=green=blue)
 
                 sum_MAD += abs( luminance_1-luminance_2 )
 
         return sum_MAD/(width*height)
 
     @classmethod
+    def is_valid_coordinate(cls, x, y, block_size, pixels):
+        try:
+            ok1 = pixels[x, y]
+            ok2 = pixels[x+block_size-1, y+block_size-1]
+            return True
+        except Exception, ex:
+            return False
+
+    @classmethod
     def is_valid_x_coordinate(cls, x, block_size, image):
-        return x >=0 and x+block_size <= image.width()
+        return x >=0 and x+block_size <= image.size[0]
 
     @classmethod
     def is_valid_y_coordinate(cls, y, block_size, image):
-        return y >=0 and y+block_size <= image.height()
+        return y >=0 and y+block_size <= image.size[1]
