@@ -1,6 +1,7 @@
 __author__ = 'luca'
 
 from images.image_comparator import ImageComparator
+from images.image_converter import ImageConverter
 from utils.logging import klog
 
 class QStepSearch(object):
@@ -8,12 +9,12 @@ class QStepSearch(object):
         self.block_size = block_size
         self.pass_step = pass_step
 
-    def search(self, image1, x_start, y_start, image2):
+    def search(self, image1_pixels, x_start, y_start, image2_pixels):
 
         block_size = self.block_size
         pass_step = self.pass_step
 
-        subimage_1 = image1.copy(x_start, y_start, block_size, block_size)
+        subimage_1_pixels = ImageConverter.sub_pixels(image1_pixels, x_start, y_start, x_start+block_size, y_start+block_size)
 
         MAD_checks_count = 0
         p = pass_step
@@ -32,21 +33,16 @@ class QStepSearch(object):
 
         while ds >= 1:
             for x in [xs, xs+ds, xs-ds]:
-
-                if not ImageComparator.is_valid_x_coordinate(x, block_size, image2):
-                    continue
-
                 for y in [ys, ys+ds, ys-ds]:
 
-                    if not ImageComparator.is_valid_y_coordinate(y, block_size, image2):
+                    if not ImageComparator.is_valid_coordinate(x, y, block_size, image2_pixels):
                         continue
 
-
                     #Create the subimages
-                    subimage_2 = image2.copy(x, y, block_size, block_size)
+                    subimage_2_pixels = ImageConverter.sub_pixels(image2_pixels, x, y, x+block_size, y+block_size)
 
                     #Calculate the MAD
-                    MAD = ImageComparator.calculate_MAD(subimage_1, subimage_2)
+                    MAD = ImageComparator.calculate_MAD_v2(subimage_1_pixels, subimage_2_pixels)
                     MAD_checks_count += 1
                     klog("%d,%d\t\t\t\tMAD-> %f" %(x,y, MAD))
 

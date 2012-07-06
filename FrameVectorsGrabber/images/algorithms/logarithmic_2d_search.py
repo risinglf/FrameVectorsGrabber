@@ -1,4 +1,5 @@
 from utils.logging import klog
+from images.image_converter import ImageConverter
 
 __author__ = 'luca'
 
@@ -10,12 +11,13 @@ class Logarithmic2DSearch(object):
         self.block_size = block_size
         self.pass_step = pass_step
 
-    def search(self, image1, x_start, y_start, image2):
+    def search(self, image1_pixels, x_start, y_start, image2_pixels):
 
         block_size = self.block_size
         pass_step = self.pass_step
 
-        subimage_1 = image1.copy(x_start, y_start, block_size, block_size)
+        #subimage_1 = image1.copy(x_start, y_start, block_size, block_size)
+        subimage_1_pixels = ImageConverter.sub_pixels(image1_pixels, x_start, y_start, x_start+block_size, y_start+block_size)
 
         MAD_checks_count = 0
         p = pass_step
@@ -36,17 +38,14 @@ class Logarithmic2DSearch(object):
 
                 for (x,y) in [(xs, ys), (xs-ds,ys), (xs+ds, ys), (xs, ys+ds), (xs,ys-ds)]:
 
-                    if not ImageComparator.is_valid_x_coordinate(x, block_size, image2):
-                        continue
-
-                    if not ImageComparator.is_valid_y_coordinate(y, block_size, image2):
+                    if not ImageComparator.is_valid_coordinate(x, y, block_size, image2_pixels):
                         continue
 
                     #Create the subimages
-                    subimage_2 = image2.copy(x, y, block_size, block_size)
+                    subimage_2_pixels = ImageConverter.sub_pixels(image2_pixels, x, y, x+block_size, y+block_size)
 
                     #Calculate the MAD
-                    MAD = ImageComparator.calculate_MAD(subimage_1, subimage_2)
+                    MAD = ImageComparator.calculate_MAD_v2(subimage_1_pixels, subimage_2_pixels)
                     MAD_checks_count += 1
 
                     klog("%d,%d\t\t\t\tMAD-> %f" %(x,y, MAD))
@@ -77,20 +76,18 @@ class Logarithmic2DSearch(object):
 
                 for x in [xs, xs+ds, xs-ds]:
 
-                    if not ImageComparator.is_valid_x_coordinate(x, block_size, image2):
-                        continue
-
                     for y in [ys, ys+ds, ys-ds]:
 
                         #TODO: CODE HERE IS COPY-PASTED!! THIS SUCKS! secondo me va bene!
-                        if not ImageComparator.is_valid_y_coordinate(y, block_size, image2):
+                        if not ImageComparator.is_valid_coordinate(x, y, block_size, image2_pixels):
                             continue
 
                         #Create the subimages
-                        subimage_2 = image2.copy(x, y, block_size, block_size)
+                        #subimage_2 = image2.copy(x, y, block_size, block_size)
+                        subimage_2_pixels = ImageConverter.sub_pixels(image2_pixels, x, y, x+block_size, y+block_size)
 
                         #Calculate the MAD
-                        MAD = ImageComparator.calculate_MAD(subimage_1, subimage_2)
+                        MAD = ImageComparator.calculate_MAD_v2(subimage_1_pixels, subimage_2_pixels)
                         MAD_checks_count += 1
 
                         klog("%d,%d\t\t\t\tMAD-> %f" %(x,y, MAD))
@@ -107,7 +104,6 @@ class Logarithmic2DSearch(object):
                             best_y = y
 
                 ds = 0
-
                 s += 1
 
                 print "ds: %d" %ds
