@@ -9,9 +9,13 @@ from images.algorithms.logarithmic_2d_search import Logarithmic2DSearch
 from images.algorithms.orthogonal_search import OrthogonalSearch
 from utils.logging import klog
 
-from utils.ffmpeg import FFMpegWrapper
 from frames_timeline.qframes_timeline_listmodel import QFramesTimelineListModel
 from frames_timeline.qframes_timeline_delegate import QFramesTimelineDelegate
+from frames_timeline.qanalyzed_frames_timeline_listmodel import QAnalyzedFramesTimelineListModel
+from videos.video_comparator import VideoComparator
+from videos.video_interpolator import VideoInterpolator
+
+from videos.video import Video
 import time, math
 
 
@@ -26,7 +30,12 @@ class QFVGMainWindow(QMainWindow):
         self.image_2 = None
         self.image_2_luminance = None
 
+        self.video = None
+
         self.vectors = []
+        self._discared_frames = []
+
+        self._wait_dialog = None
 
         QMainWindow.__init__(self)
 
@@ -44,11 +53,20 @@ class QFVGMainWindow(QMainWindow):
         self.ui.searchTypeComboBox.currentIndexChanged.connect(self._show_hide_search_parameters)
         self.ui.zoomInPushButton.clicked.connect(self._zoom_in_views)
         self.ui.zoomOutPushButton.clicked.connect(self._zoom_out_views)
+        self.ui.analyzeVideoPushButton.clicked.connect(self._analyzeVideo)
+        self.ui.interpolateVideoPushButton.clicked.connect(self._interpolateVideo)
 
-        self._show_hide_search_parameters(0)
+        self.ui.searchTypeComboBox.setCurrentIndex(3)
+        #self._show_hide_search_parameters(1)
+
+        #TODO: REMOVE ME
         self._load_sample_images_from_HD()
 
-        self._draw_frames_timeline("/tmp/video_name/")
+        #TODO: REMOVE ME
+        #self.video = Video("/Users/luca/Dropbox/ComunicazioniMul2/Mazzini/Videos/Coldplay_mini_charlie_brownHD.mov")
+        self.video = Video("/Users/luca/Dropbox/ComunicazioniMul2/Mazzini/Videos/Pallone/pallone.mov")
+        self.video.load(self._frames_created)
+
         self.ui.framesTimelineListView.pressed.connect(self._frame_clicked)
 
     def _frame_clicked(self, index):
@@ -70,24 +88,82 @@ class QFVGMainWindow(QMainWindow):
             self._draw_frame(self.image_2, self.ui.frame2GraphicsView)
             QMessageBox(QMessageBox.Information, "Frame Choosed", "Frame 2 changed!").exec_()
 
+    def _interpolateVideo(self):
+        print "Interpolating video..."
+        interpolator = VideoInterpolator(self.video)
 
-    def _draw_frames_timeline(self, folder):
-        model = QFramesTimelineListModel(folder)
+        #self._discared_frames = [1, 2, 3] #TODO: remove me
+        frames_path = interpolator.interpolate(self._discared_frames, self.searcher(), self.ui.blockSizeSpinBox.value(), self.ui.MADThresholdSpingBox.value())
+
+        interpolated_video = Video(frames_path=frames_path)
+        #interpolated_video = Video(frames_path="/tmp/pallone.mov.interpolated")
+        interpolated_video.load()
+
+        self.ui.interpolatedFramesTimelineListView.setModel( QFramesTimelineListModel( interpolated_video ) )
+        self.ui.interpolatedFramesTimelineListView.setItemDelegate( QFramesTimelineDelegate() )
+
+    def searcher(self):
+        search_type = self.ui.searchTypeComboBox.currentText()
+        if search_type == "Full":
+            searcher = FullSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchWindowSizeSpinBox.value())
+        elif search_type == "Q-Step":
+            searcher = QStepSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
+        elif search_type == "2D Logarithmic":
+            searcher = Logarithmic2DSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
+        elif search_type == "Orthogonal":
+            searcher = OrthogonalSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
+        else:
+            searcher = OrthogonalSearch(16, 6)
+
+        return searcher
+
+
+    def _analyzeVideo(self):
+        if not self.video:
+            print "Please first choose a video"
+        else:
+            dialog = QMessageBox(self)
+            dialog.setText("Attendi mentre analizzo il video...")
+            dialog.show()
+
+            comparator = VideoComparator(self.video, self.searcher())
+            holden_frames, self._discared_frames = comparator.compared_frames_statuses(self.ui.maxVectDistThreSpinBox.value(), self.ui.MADThresholdSpingBox.value())
+            print "Holden frames: "+ str(holden_frames)
+            print "Discared frames: "+ str(self._discared_frames)
+            dialog.close()
+
+            model = QAnalyzedFramesTimelineListModel(self.video, self._discared_frames)
+            self.ui.analyzedFramesTimelineListView.setModel(model)
+            self.ui.analyzedFramesTimelineListView.setItemDelegate(QFramesTimelineDelegate())
+
+    def _draw_frames_timeline(self):
+        model = QFramesTimelineListModel(self.video)
+        delegate = QFramesTimelineDelegate()
+
         self.ui.framesTimelineListView.setModel(model)
         self.ui.framesCountLabel.setText(str(model.rowCount(None)))
+        self.ui.framesTimelineListView.setItemDelegate(delegate)
 
-        self.ui.framesTimelineListView.setItemDelegate( QFramesTimelineDelegate())
+        self.ui.framesTimelineListView2.setModel(model)
+        self.ui.framesTimelineListView2.setItemDelegate(delegate)
 
-    def _frames_created(self, success, frames_folder_path):
+    def _frames_created(self, success):
+        if self._wait_dialog:
+            self._wait_dialog.close()
+
         if success:
-            print "I frame sono stati creat in "+frames_folder_path
-            self._draw_frames_timeline(frames_folder_path)
+            self._draw_frames_timeline()
         else:
             print "Qualcosa e andato storto"
 
     def _choose_video_file(self):
-        input_file_name = QFileDialog.getOpenFileName(self, 'Open file')
-        FFMpegWrapper.generate_frames(self, input_file_name, "/tmp", self._frames_created)
+        input_file_name = str(QFileDialog.getOpenFileName(self, 'Open file'))
+        if input_file_name:
+            self._wait_dialog = QMessageBox(self)
+            self._wait_dialog.setText("Attendi mentre apro il video...")
+            self._wait_dialog.show()
+            self.video = Video(input_file_name)
+            self.video.load(self._frames_created)
 
     def _load_sample_images_from_HD(self):
         self.image_1 = QImage("samples/images/cat/cat1.png")
@@ -169,26 +245,12 @@ class QFVGMainWindow(QMainWindow):
 
             start_time = time.time()
 
-            search_type = self.ui.searchTypeComboBox.currentText()
-            if search_type == "Full":
-                searcher = FullSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchWindowSizeSpinBox.value())
-            elif search_type == "Q-Step":
-                searcher = QStepSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
-            elif search_type == "2D Logarithmic":
-                searcher = Logarithmic2DSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
-            elif search_type == "Orthogonal":
-                searcher = OrthogonalSearch(self.ui.blockSizeSpinBox.value(), self.ui.searchStepSpinBox.value())
-            else:
-                searcher = None
+            self.vectors = comp.get_motion_vectors(self.image_2_luminance, self.searcher())
 
-            if searcher:
-                self.vectors = comp.get_motion_vectors(self.image_2_luminance, searcher)
+            elasped_time = time.time() - start_time
+            self.ui.searchElapsedTimeLabel.setText("%.2f seconds" %elasped_time)
 
-                elasped_time = time.time() - start_time
-                self.ui.searchElapsedTimeLabel.setText("%.2f seconds" %elasped_time)
-
-                self._draw_motion_vectors()
-                self._draw_compressed_frame2()
+            self._draw_compressed_frame2()
 
     def _draw_motion_vectors(self):
 
@@ -228,7 +290,12 @@ class QFVGMainWindow(QMainWindow):
 
                         polygon = QPolygonF([QPointF(to_x-sze * math.cos (alpha), to_y-sze * math.sin (alpha)),QPointF(pa_x, pa_y),QPointF(pb_x, pb_y)])
                         scene.addPolygon(polygon, pen)
- 
+
+
+        longest_vector, max_distance = ImageComparator.longest_motion_vector(self.vectors)
+        print "Max motion vector distance: %f" % max_distance
+
+
 
     def _draw_motion_vectors_old(self):
         scene = self.ui.frame2GraphicsView.scene()

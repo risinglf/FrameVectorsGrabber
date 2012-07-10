@@ -1,12 +1,14 @@
-from PyQt4.QtGui import QColor
+from PyQt4.QtGui import QColor, QImage
 from images.image_converter import ImageConverter
 #from utils.logging import klog
+import math
+import time
 
 class ImageComparator(object):
     def __init__(self, image):
         self.image = image
 
-    def get_motion_vectors(self, image2, searcher):
+    def get_motion_vectors(self, image2, searcher, MAD_threshold = None):
         """
         1)  Divide self.image into blocks of 8x8 pixels
         2)  for each block:
@@ -18,10 +20,16 @@ class ImageComparator(object):
         """
 
 
-        image1 = ImageConverter.qtimage_to_pil_image(self.image)
+        if isinstance(self.image, QImage):
+            image1 = ImageConverter.qtimage_to_pil_image(self.image)
+        else:
+            image1 = self.image
+
         images1_pixels = image1.load()
 
-        image2 = ImageConverter.qtimage_to_pil_image(image2)
+        if isinstance(image2, QImage):
+            image2 = ImageConverter.qtimage_to_pil_image(image2)
+
         images2_pixels = image2.load()
 
         width = image1.size[0]
@@ -39,9 +47,16 @@ class ImageComparator(object):
 
                 (new_x, new_y, MAD, MAD_checks_count) = searcher.search(images1_pixels, block_x_pos, block_y_pos, images2_pixels)
 
-                #if (block_x_pos != new_x) or (block_y_pos != new_y):
-                vector = { 'x': block_x_pos, 'y': block_y_pos, 'to_x' : new_x, 'to_y': new_y, 'MAD': MAD, 'MAD_checks_count': MAD_checks_count}
-                vectors.append(vector)
+                valid_vector = True
+
+                if MAD_threshold and MAD > MAD_threshold:
+                    #Discard the vector if the MAD is over ranged
+                    valid_vector = False
+
+                if valid_vector:
+                    #if (block_x_pos != new_x) or (block_y_pos != new_y):
+                    vector = { 'x': block_x_pos, 'y': block_y_pos, 'to_x' : new_x, 'to_y': new_y, 'MAD': MAD, 'MAD_checks_count': MAD_checks_count}
+                    vectors.append(vector)
 
         return vectors
 
@@ -52,11 +67,17 @@ class ImageComparator(object):
         pixels_count = len(image1_pixels)
 
         for p in range(pixels_count):
+            pixel_1 = image1_pixels[p]
+            pixel_2 = image2_pixels[p]
 
-                luminance_1 = image1_pixels[p][0] #is already in luminance mode (red=green=blue)
-                luminance_2 = image2_pixels[p][0] #already in luminance mode (red=green=blue)
+            if isinstance(pixel_1, tuple):
+                luminance_1 = pixel_1[0] #is already in luminance mode (red=green=blue)
+                luminance_2 = pixel_2[0] #already in luminance mode (red=green=blue)
+            else:
+                luminance_1 = pixel_1
+                luminance_2 = pixel_2
 
-                sum_MAD += abs( luminance_1-luminance_2 )
+            sum_MAD += abs( luminance_1-luminance_2 )
 
         return sum_MAD/pixels_count
 
@@ -91,3 +112,18 @@ class ImageComparator(object):
     @classmethod
     def is_valid_y_coordinate(cls, y, block_size, image):
         return y >=0 and y+block_size <= image.size[1]
+
+
+    @classmethod
+    def longest_motion_vector(cls, motion_vectors):
+        longest_vector = {}
+        max_distance = 0
+
+        for vector in motion_vectors:
+            distance = math.sqrt( math.pow(vector['x']-vector['to_x'], 2) + math.pow(vector['y']-vector['to_y'], 2) )
+
+            if distance > max_distance:
+                max_distance = distance
+                longest_vector = vector
+
+        return (longest_vector, max_distance)

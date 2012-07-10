@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1155</width>
-    <height>700</height>
+    <width>1154</width>
+    <height>766</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,11 +20,11 @@
       <x>30</x>
       <y>10</y>
       <width>1101</width>
-      <height>631</height>
+      <height>711</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
@@ -36,7 +36,7 @@
         <x>10</x>
         <y>80</y>
         <width>1051</width>
-        <height>481</height>
+        <height>211</height>
        </rect>
       </property>
       <property name="flow">
@@ -494,7 +494,7 @@
          <item>
           <widget class="QSpinBox" name="blockSizeSpinBox">
            <property name="value">
-            <number>8</number>
+            <number>16</number>
            </property>
           </widget>
          </item>
@@ -630,6 +630,157 @@
       </property>
      </widget>
     </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Video analyzer</string>
+     </attribute>
+     <widget class="QListView" name="framesTimelineListView2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>1071</width>
+        <height>181</height>
+       </rect>
+      </property>
+      <property name="flow">
+       <enum>QListView::LeftToRight</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>141</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Original video frames</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>260</y>
+        <width>191</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Analyzed video frames</string>
+      </property>
+     </widget>
+     <widget class="QListView" name="analyzedFramesTimelineListView">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>280</y>
+        <width>1071</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="flow">
+       <enum>QListView::LeftToRight</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_20">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>230</y>
+        <width>231</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Maximum motion vector distance:</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="maxVectDistThreSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>220</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="singleStep">
+       <double>0.200000000000000</double>
+      </property>
+      <property name="value">
+       <double>5.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QListView" name="interpolatedFramesTimelineListView">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>480</y>
+        <width>1071</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="flow">
+       <enum>QListView::LeftToRight</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_21">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>450</y>
+        <width>191</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Interpolated video frames</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="analyzeVideoPushButton">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>220</y>
+        <width>114</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Analyze</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="interpolateVideoPushButton">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>450</y>
+        <width>114</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Interpolate</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="saveVideoPushButton">
+      <property name="geometry">
+       <rect>
+        <x>920</x>
+        <y>450</y>
+        <width>161</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Save video to disk</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -637,7 +788,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1155</width>
+     <width>1154</width>
      <height>22</height>
     </rect>
    </property>

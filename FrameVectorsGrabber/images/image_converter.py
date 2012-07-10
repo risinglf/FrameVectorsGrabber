@@ -1,8 +1,9 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 import sip
+import time
 import cStringIO
-from PIL import Image, ImageQt
+from PIL import Image, ImageQt, ImageOps
 
 
 Kb = 0.0722
@@ -35,6 +36,35 @@ class ImageConverter(object):
                 new_pixels[x, y] = gray_pixel
 
         return ImageQt.ImageQt(new_img)
+
+    @classmethod
+    def luminance_image(cls, image):
+        #   for each pixel:
+        #       get the RGB color
+        #       transform the RGB color in the YUV (with zero U and V)
+        #       transform the YUV color into RGB_new
+        #       set the pixel of the new image to RGB_new
+        start_time = time.time()
+
+        new_image = ImageOps.grayscale(image)
+
+        """
+        width = image.size[0]
+        height = image.size[1]
+
+        old_pixels = image.load()
+
+        new_image = Image.new( 'RGB', (width, height), "black") # create a new black image
+        new_pixels = new_image.load() # create the pixel map
+
+        for x in xrange(width):
+            for y in xrange(height):
+                gray_pixel = ImageConverter.luminance_pil_pixel(old_pixels[x, y])
+                new_pixels[x, y] = gray_pixel
+        """
+        print "La conversione in luminanza ha impiegato: %.2f secondi" % (time.time()-start_time)
+
+        return new_image
 
     @classmethod
     def qtimage_to_pil_image(cls, qimage):
