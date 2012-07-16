@@ -3,15 +3,19 @@ from images.image_converter import ImageConverter
 
 __author__ = 'luca'
 
+from searcher import Searcher
 from images.image_comparator import ImageComparator
 import math
 
-class Logarithmic2DSearch(object):
+class Logarithmic2DSearch(Searcher):
     def __init__(self, block_size, pass_step = 6):
         self.block_size = block_size
         self.pass_step = pass_step
+        super(Logarithmic2DSearch, self).__init__()
+
 
     def search(self, image1_pixels, x_start, y_start, image2_pixels):
+        self.reset_search()
 
         block_size = self.block_size
         pass_step = self.pass_step
@@ -19,7 +23,6 @@ class Logarithmic2DSearch(object):
         #subimage_1 = image1.copy(x_start, y_start, block_size, block_size)
         subimage_1_pixels = ImageConverter.sub_pixels(image1_pixels, x_start, y_start, x_start+block_size, y_start+block_size)
 
-        MAD_checks_count = 0
         p = pass_step
         ds = math.pow(2, math.floor( math.log(p,2))-1 )
         s = 1
@@ -41,14 +44,7 @@ class Logarithmic2DSearch(object):
                     if not ImageComparator.is_valid_coordinate(x, y, block_size, image2_pixels):
                         continue
 
-                    #Create the subimages
-                    subimage_2_pixels = ImageConverter.sub_pixels(image2_pixels, x, y, x+block_size, y+block_size)
-
-                    #Calculate the MAD
-                    MAD = ImageComparator.calculate_MAD_v2(subimage_1_pixels, subimage_2_pixels)
-                    MAD_checks_count += 1
-
-                    klog("%d,%d\t\t\t\tMAD-> %f" %(x,y, MAD))
+                    MAD = self.calculate_MAD(subimage_1_pixels, image2_pixels, x, y, x+block_size, y+block_size)
 
                     if MAD < best_local_MAD:
                         best_local_MAD = MAD
@@ -64,9 +60,8 @@ class Logarithmic2DSearch(object):
                 s += 1
 
                 #Check if the xs_min and ys_min are the central point of the fives checked
-                print "ds: %d" %ds
                 if xs_min == xs and ys_min == ys:
-                    ds = ds/2
+                    ds /= 2
 
                 xs = xs_min
                 ys = ys_min
@@ -82,15 +77,7 @@ class Logarithmic2DSearch(object):
                         if not ImageComparator.is_valid_coordinate(x, y, block_size, image2_pixels):
                             continue
 
-                        #Create the subimages
-                        #subimage_2 = image2.copy(x, y, block_size, block_size)
-                        subimage_2_pixels = ImageConverter.sub_pixels(image2_pixels, x, y, x+block_size, y+block_size)
-
-                        #Calculate the MAD
-                        MAD = ImageComparator.calculate_MAD_v2(subimage_1_pixels, subimage_2_pixels)
-                        MAD_checks_count += 1
-
-                        klog("%d,%d\t\t\t\tMAD-> %f" %(x,y, MAD))
+                        MAD = self.calculate_MAD(subimage_1_pixels, image2_pixels, x, y, x+block_size, y+block_size)
 
                         if MAD < best_local_MAD:
                             best_local_MAD = MAD
@@ -109,4 +96,4 @@ class Logarithmic2DSearch(object):
                 print "ds: %d" %ds
 
 
-        return best_x, best_y, best_global_MAD, MAD_checks_count
+        return best_x, best_y, best_global_MAD, self._MAD_checks_count

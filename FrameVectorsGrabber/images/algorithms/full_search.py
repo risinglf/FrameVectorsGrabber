@@ -1,16 +1,19 @@
 __author__ = 'luca'
+from searcher import Searcher
 from images.image_comparator import ImageComparator
 from images.image_converter import ImageConverter
 
-class FullSearch(object):
+class FullSearch(Searcher):
     def __init__(self, block_size, margin_size):
         self.block_size = block_size
         self.margin_size = margin_size
+        super(FullSearch, self).__init__()
 
 
     def search(self, image1_pixels, x_start, y_start, image2_pixels):
 
-        MAD_checks_count = 0
+        self.reset_search()
+
         block_size = self.block_size
         margin_size = self.margin_size
         best_MAD = 1000000
@@ -42,15 +45,7 @@ class FullSearch(object):
 
                 #klog("Valuating block (%f,%f)" %(px, py))
 
-                #Create the subimages
-                subimage_2_pixels = ImageConverter.sub_pixels(image2_pixels, px, py, px+block_size, py+block_size)
-
-                #Calculate the MAD
-                MAD = ImageComparator.calculate_MAD_v2(subimage_1_pixels, subimage_2_pixels)
-                MAD_checks_count += 1
-
-
-                #klog("MAD found: %f" % MAD)
+                MAD = self.calculate_MAD(subimage_1_pixels, image2_pixels, px, py, px+block_size, py+block_size)
 
                 if MAD < best_MAD:
                     #klog("Best MAD found: %f, at (%f,%f)" % (MAD, px, py))
@@ -58,4 +53,4 @@ class FullSearch(object):
                     best_x = px
                     best_y = py
 
-        return best_x, best_y, best_MAD, MAD_checks_count
+        return best_x, best_y, best_MAD, self._MAD_checks_count
