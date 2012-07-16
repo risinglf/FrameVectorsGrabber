@@ -13,7 +13,7 @@ class OrthogonalSearch(Searcher):
 
     def search(self, image1_pixels, x_start, y_start, image2_pixels):
 
-        self._MAD_checks_count = 0
+        self.reset_search()
 
         block_size = self.block_size
         pass_step = self.pass_step

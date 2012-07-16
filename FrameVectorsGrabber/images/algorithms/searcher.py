@@ -35,3 +35,6 @@ class Searcher(object):
         else:
             return None
 
+    def reset_search(self):
+        self._coordinates_checked = {}
+        self._MAD_checks_count = 0
