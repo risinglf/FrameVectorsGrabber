@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'qfvgwindow.ui'
 #
-# Created: Tue Jul 10 01:11:41 2012
+# Created: Mon Jul 16 11:37:26 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -103,8 +103,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.label_5)
         self.MADThresholdSpingBox = QtGui.QDoubleSpinBox(self.groupBox_2)
         self.MADThresholdSpingBox.setDecimals(6)
-        self.MADThresholdSpingBox.setSingleStep(0.001)
-        self.MADThresholdSpingBox.setProperty("value", 0.02)
+        self.MADThresholdSpingBox.setSingleStep(0.5)
+        self.MADThresholdSpingBox.setProperty("value", 7.02)
         self.MADThresholdSpingBox.setObjectName(_fromUtf8("MADThresholdSpingBox"))
         self.horizontalLayout.addWidget(self.MADThresholdSpingBox)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
@@ -319,7 +319,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuOpen_video.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
