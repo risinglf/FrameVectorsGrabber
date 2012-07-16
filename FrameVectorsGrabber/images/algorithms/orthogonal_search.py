@@ -1,15 +1,19 @@
+from searcher import Searcher
 from images.image_comparator import ImageComparator
 from images.image_converter import ImageConverter
 
 from utils.logging import klog
 import math
 
-class OrthogonalSearch(object):
+class OrthogonalSearch(Searcher):
     def __init__(self, block_size, pass_step = 6):
         self.block_size = block_size
         self.pass_step = pass_step
+        super(OrthogonalSearch, self).__init__()
 
     def search(self, image1_pixels, x_start, y_start, image2_pixels):
+
+        self._MAD_checks_count = 0
 
         block_size = self.block_size
         pass_step = self.pass_step
@@ -34,8 +38,6 @@ class OrthogonalSearch(object):
         best_x = -1
         best_y = -1
 
-        MAD_checks_count = 0
-
         #klog("Check block from %d, %d" %(x_start, y_start))
 
         while True:
@@ -44,14 +46,7 @@ class OrthogonalSearch(object):
                 if not ImageComparator.is_valid_coordinate(x, y, block_size, image2_pixels):
                     continue
 
-                #Create the subimages
-                subimage_2_pixels = ImageConverter.sub_pixels(image2_pixels, x, y, x+block_size, y+block_size)
-
-                #Calculate the MAD
-                MAD = ImageComparator.calculate_MAD_v2(subimage_1_pixels, subimage_2_pixels)
-                MAD_checks_count += 1
-
-                #klog("%d,%d\t\t\t\tMAD-> %f" %(x,y, MAD))
+                MAD = self.calculate_MAD(subimage_1_pixels, image2_pixels, x, y, x+block_size, y+block_size)
 
                 if MAD < best_local_a_MAD:
                     best_local_a_MAD = MAD
@@ -69,14 +64,8 @@ class OrthogonalSearch(object):
                 if not ImageComparator.is_valid_coordinate(x, y, block_size, image2_pixels):
                     continue
 
-                #Create the subimages
-                subimage_2_pixels = ImageConverter.sub_pixels(image2_pixels, x, y, x+block_size, y+block_size)
-
                 #Calculate the MAD
-                MAD = ImageComparator.calculate_MAD_v2(subimage_1_pixels, subimage_2_pixels)
-                MAD_checks_count += 1
-
-                #klog("%d,%d\t\t\t\tMAD-> %f" %(x,y, MAD))
+                MAD = self.calculate_MAD(subimage_1_pixels, image2_pixels, x, y, x+block_size, y+block_size)
 
                 if MAD < best_local_MAD:
                     best_local_MAD = MAD
@@ -102,4 +91,4 @@ class OrthogonalSearch(object):
 
         #klog("-")
         #klog("MADs check count: %d" %MAD_checks_count)
-        return best_x, best_y, best_global_MAD, MAD_checks_count
+        return best_x, best_y, best_global_MAD, self._MAD_checks_count
