@@ -80,15 +80,15 @@ class VideoInterpolator(object):
                     #Then copy the moved blocks
                     print "------------"
                     for v in subvectors[k]:
-                        print "Copying the block (%d, %d) from frame: %d to (%d, %d) to the new frame %d" %(v["x"], v["y"], left_frame_index, v["to_x"], v["to_y"], frame_num)
+                        #print "Copying the block (%d, %d) from frame: %d to (%d, %d) to the new frame %d" %(v["x"], v["y"], left_frame_index, v["to_x"], v["to_y"], frame_num)
                         moved_block_image = image1.crop( (v["x"], v["y"], v["x"]+block_size, v["y"]+block_size) )
                         image_new.paste(moved_block_image, (v["to_x"], v["to_y"], v["to_x"]+block_size, v["to_y"]+block_size) )
                         #image_new.paste((255, 0, 0), (v["to_x"], v["to_y"], v["to_x"]+block_size, v["to_y"]+block_size) )
 
                     image_new.save(frame_path)
-                    print "Saved new frame: "+ frame_path
+                    #print "Saved new frame: "+ frame_path
 
-                print "---"
+                #print "---"
         return new_video_path
 
     @classmethod
@@ -106,7 +106,7 @@ class VideoInterpolator(object):
                 new_x = int( v['x'] + (v['to_x'] - v['x']) * (i+1)/(num+1) )
                 new_y = int( v['y'] + (v['to_y'] - v['y']) * (i+1)/(num+1) )
 
-                print "I: %d new_x: %d new_y: %d" %(i, new_x, new_y)
+                #print "I: %d new_x: %d new_y: %d" %(i, new_x, new_y)
 
                 new_vector = { 'x': v['x'], 'y': v['y'], 'to_x' : new_x, 'to_y': new_y}
                 subvectors[i].append( new_vector )

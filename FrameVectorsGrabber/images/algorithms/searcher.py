@@ -25,7 +25,7 @@ class Searcher(object):
             self._coordinates_checked["%dx%d" %(x,y)] = MAD
             self._MAD_checks_count += 1
 
-        klog("%d,%d\t\t\t\tMAD-> %f" %(x,y, MAD))
+        #klog("%d,%d\t\t\t\tMAD-> %f" %(x,y, MAD))
         return MAD
 
 
