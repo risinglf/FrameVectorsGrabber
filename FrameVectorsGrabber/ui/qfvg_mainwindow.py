@@ -90,17 +90,26 @@ class QFVGMainWindow(QMainWindow):
 
     def _interpolateVideo(self):
         print "Interpolating video..."
+        dialog = QMessageBox(self)
+        dialog.setText("Attendi mentre ricostruisco il video...")
+        dialog.show()
+
+        start_time = time.time()
         interpolator = VideoInterpolator(self.video)
 
         #self._discared_frames = [1, 2, 3] #TODO: remove me
         frames_path = interpolator.interpolate(self._discared_frames, self.searcher(), self.ui.blockSizeSpinBox.value(), self.ui.MADThresholdSpingBox.value())
+        klog("L'interpolazione del video ha impiegato: %.2f secondi" % (time.time()-start_time))
+
 
         interpolated_video = Video(frames_path=frames_path)
         #interpolated_video = Video(frames_path="/tmp/pallone.mov.interpolated")
         interpolated_video.load()
+        dialog.close()
 
         self.ui.interpolatedFramesTimelineListView.setModel( QFramesTimelineListModel( interpolated_video ) )
         self.ui.interpolatedFramesTimelineListView.setItemDelegate( QFramesTimelineDelegate() )
+
 
     def searcher(self):
         search_type = self.ui.searchTypeComboBox.currentText()
@@ -126,8 +135,10 @@ class QFVGMainWindow(QMainWindow):
             dialog.setText("Attendi mentre analizzo il video...")
             dialog.show()
 
+            start_time = time.time()
             comparator = VideoComparator(self.video, self.searcher())
             holden_frames, self._discared_frames = comparator.compared_frames_statuses(self.ui.maxVectDistThreSpinBox.value(), self.ui.MADThresholdSpingBox.value())
+            klog("L'analisi del video ha impiegato: %.2f secondi" % (time.time()-start_time))
             print "Holden frames: "+ str(holden_frames)
             print "Discared frames: "+ str(self._discared_frames)
             dialog.close()
