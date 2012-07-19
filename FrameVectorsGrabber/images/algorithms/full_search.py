@@ -22,6 +22,19 @@ class FullSearch(Searcher):
 
         subimage_1_pixels = ImageConverter.sub_pixels(image1_pixels, x_start, y_start, x_start+block_size, y_start+block_size)
 
+
+        #Start with the center
+        if ImageComparator.is_valid_coordinate(x_start, y_start, block_size, image2_pixels):
+            MAD = self.calculate_MAD(subimage_1_pixels, image2_pixels, x_start, y_start, x_start+block_size, y_start+block_size)
+            if MAD < best_MAD:
+                #klog("Best MAD found: %f, at (%f,%f)" % (MAD, px, py))
+                best_MAD = MAD
+                best_x = x_start
+                best_y = y_start
+            if best_MAD == 0:
+                return best_x, best_y, best_MAD, self._MAD_checks_count
+
+
         for py in range(y_start-margin_size, y_start+margin_size):
 
             if py < 0:
@@ -52,5 +65,9 @@ class FullSearch(Searcher):
                     best_MAD = MAD
                     best_x = px
                     best_y = py
+
+                if best_MAD == 0:
+                    return best_x, best_y, best_MAD, self._MAD_checks_count
+
 
         return best_x, best_y, best_MAD, self._MAD_checks_count
