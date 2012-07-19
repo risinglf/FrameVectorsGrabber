@@ -23,7 +23,7 @@ class VideoInterpolator(object):
                 #The frame must me copied in the folder
                 frame = self._oldvideo.frames[i]
 
-                shutil.copyfile(frame.path(), "%s/Frame%07d.png" %(new_video_path, i))
+                shutil.copyfile(frame.path(), "%s/Frame_%07d.png" %(new_video_path, i))
                 i+=1
 
             else:
@@ -55,15 +55,12 @@ class VideoInterpolator(object):
                 comp = ImageComparator(frame_1.grayscaled_image())
                 vectors = comp.get_motion_vectors(frame_2.grayscaled_image(), searcher, MAD_threshold)
 
-                print vectors
                 subvectors = VideoInterpolator.sub_motion_vectors(vectors, len(new_frames))
-                print subvectors
-
 
                 #TODO: check len(subvectors) MUST be equal to len(new_frames)
                 for k in range(len(new_frames)):
                     frame_num = new_frames[k]
-                    frame_path = "%s/Frame%07d.png" % (new_video_path, frame_num)
+                    frame_path = "%s/Frame_%07d.png" % (new_video_path, frame_num)
                     print "Devo interpolare %d" % frame_num
 
                     image1 = frame_1.image()
@@ -89,7 +86,7 @@ class VideoInterpolator(object):
                     #print "Saved new frame: "+ frame_path
 
                 #print "---"
-        return new_video_path
+        return new_video_path[:len(new_video_path)-1] #remove the trailing slash
 
     @classmethod
     def sub_motion_vectors(cls, vectors, num):
@@ -99,7 +96,6 @@ class VideoInterpolator(object):
             subvectors.append([])
 
 
-        print "Creating subvectors"
         for v in vectors:
             for i in xrange(num):
                 #if something is changed
@@ -111,6 +107,5 @@ class VideoInterpolator(object):
                 new_vector = { 'x': v['x'], 'y': v['y'], 'to_x' : new_x, 'to_y': new_y}
                 subvectors[i].append( new_vector )
 
-            print "Done, subvectors created."
         return subvectors
 
