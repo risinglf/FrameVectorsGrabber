@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'qfvgwindow.ui'
+# Form implementation generated from reading ui file 'designer/qfvgwindow.ui'
 #
-# Created: Mon Jul 16 11:37:26 2012
+# Created: Thu Jul 19 12:12:36 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -84,7 +84,7 @@ class Ui_MainWindow(object):
         self.label_2.setGeometry(QtCore.QRect(290, 10, 121, 16))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.groupBox_2 = QtGui.QGroupBox(self.tab)
-        self.groupBox_2.setGeometry(QtCore.QRect(560, 250, 531, 321))
+        self.groupBox_2.setGeometry(QtCore.QRect(560, 250, 531, 381))
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.groupBox_2)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
@@ -160,7 +160,7 @@ class Ui_MainWindow(object):
         self.formLayout.setWidget(4, QtGui.QFormLayout.FieldRole, self.newBlocksPercentLabel)
         self.label_9 = QtGui.QLabel(self.groupBox_2)
         self.label_9.setObjectName(_fromUtf8("label_9"))
-        self.formLayout.setWidget(5, QtGui.QFormLayout.LabelRole, self.label_9)
+        self.formLayout.setWidget(6, QtGui.QFormLayout.LabelRole, self.label_9)
         self.compressionRatioLabel = QtGui.QLabel(self.groupBox_2)
         font = QtGui.QFont()
         font.setPointSize(23)
@@ -168,7 +168,7 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.compressionRatioLabel.setFont(font)
         self.compressionRatioLabel.setObjectName(_fromUtf8("compressionRatioLabel"))
-        self.formLayout.setWidget(5, QtGui.QFormLayout.FieldRole, self.compressionRatioLabel)
+        self.formLayout.setWidget(6, QtGui.QFormLayout.FieldRole, self.compressionRatioLabel)
         self.label_6 = QtGui.QLabel(self.groupBox_2)
         self.label_6.setObjectName(_fromUtf8("label_6"))
         self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.label_6)
@@ -189,6 +189,16 @@ class Ui_MainWindow(object):
         self.MADsCheckedLabel.setFont(font)
         self.MADsCheckedLabel.setObjectName(_fromUtf8("MADsCheckedLabel"))
         self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.MADsCheckedLabel)
+        self.label_22 = QtGui.QLabel(self.groupBox_2)
+        self.label_22.setObjectName(_fromUtf8("label_22"))
+        self.formLayout.setWidget(5, QtGui.QFormLayout.LabelRole, self.label_22)
+        self.psnrFrame2Label = QtGui.QLabel(self.groupBox_2)
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.psnrFrame2Label.setFont(font)
+        self.psnrFrame2Label.setObjectName(_fromUtf8("psnrFrame2Label"))
+        self.formLayout.setWidget(5, QtGui.QFormLayout.FieldRole, self.psnrFrame2Label)
         self.verticalLayout_2.addLayout(self.formLayout)
         self.frame2CompressedGraphicsView = QtGui.QGraphicsView(self.tab)
         self.frame2CompressedGraphicsView.setGeometry(QtCore.QRect(560, 30, 256, 192))
@@ -208,7 +218,7 @@ class Ui_MainWindow(object):
         self.label_7.setObjectName(_fromUtf8("label_7"))
         self.horizontalLayout_3.addWidget(self.label_7)
         self.blockSizeSpinBox = QtGui.QSpinBox(self.groupBox)
-        self.blockSizeSpinBox.setProperty("value", 16)
+        self.blockSizeSpinBox.setProperty("value", 8)
         self.blockSizeSpinBox.setObjectName(_fromUtf8("blockSizeSpinBox"))
         self.horizontalLayout_3.addWidget(self.blockSizeSpinBox)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
@@ -297,11 +307,14 @@ class Ui_MainWindow(object):
         self.analyzeVideoPushButton.setGeometry(QtCore.QRect(360, 220, 114, 32))
         self.analyzeVideoPushButton.setObjectName(_fromUtf8("analyzeVideoPushButton"))
         self.interpolateVideoPushButton = QtGui.QPushButton(self.tab_2)
-        self.interpolateVideoPushButton.setGeometry(QtCore.QRect(800, 450, 114, 32))
+        self.interpolateVideoPushButton.setGeometry(QtCore.QRect(820, 450, 114, 32))
         self.interpolateVideoPushButton.setObjectName(_fromUtf8("interpolateVideoPushButton"))
-        self.saveVideoPushButton = QtGui.QPushButton(self.tab_2)
-        self.saveVideoPushButton.setGeometry(QtCore.QRect(920, 450, 161, 32))
-        self.saveVideoPushButton.setObjectName(_fromUtf8("saveVideoPushButton"))
+        self.label_23 = QtGui.QLabel(self.tab_2)
+        self.label_23.setGeometry(QtCore.QRect(940, 460, 62, 16))
+        self.label_23.setObjectName(_fromUtf8("label_23"))
+        self.interpolatedVideoPSNRLabel = QtGui.QLabel(self.tab_2)
+        self.interpolatedVideoPSNRLabel.setGeometry(QtCore.QRect(1010, 460, 62, 16))
+        self.interpolatedVideoPSNRLabel.setObjectName(_fromUtf8("interpolatedVideoPSNRLabel"))
         self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
@@ -319,7 +332,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuOpen_video.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -351,6 +364,8 @@ class Ui_MainWindow(object):
         self.searchElapsedTimeLabel.setText(QtGui.QApplication.translate("MainWindow", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.label_14.setText(QtGui.QApplication.translate("MainWindow", "MADs checked:", None, QtGui.QApplication.UnicodeUTF8))
         self.MADsCheckedLabel.setText(QtGui.QApplication.translate("MainWindow", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_22.setText(QtGui.QApplication.translate("MainWindow", "PSNR:", None, QtGui.QApplication.UnicodeUTF8))
+        self.psnrFrame2Label.setText(QtGui.QApplication.translate("MainWindow", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.chooseFrame2PushButton.setText(QtGui.QApplication.translate("MainWindow", "Choose...", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("MainWindow", "Motion vectors", None, QtGui.QApplication.UnicodeUTF8))
         self.label_7.setText(QtGui.QApplication.translate("MainWindow", "Block size", None, QtGui.QApplication.UnicodeUTF8))
@@ -371,7 +386,8 @@ class Ui_MainWindow(object):
         self.label_21.setText(QtGui.QApplication.translate("MainWindow", "Interpolated video frames", None, QtGui.QApplication.UnicodeUTF8))
         self.analyzeVideoPushButton.setText(QtGui.QApplication.translate("MainWindow", "Analyze", None, QtGui.QApplication.UnicodeUTF8))
         self.interpolateVideoPushButton.setText(QtGui.QApplication.translate("MainWindow", "Interpolate", None, QtGui.QApplication.UnicodeUTF8))
-        self.saveVideoPushButton.setText(QtGui.QApplication.translate("MainWindow", "Save video to disk", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_23.setText(QtGui.QApplication.translate("MainWindow", "PSNR", None, QtGui.QApplication.UnicodeUTF8))
+        self.interpolatedVideoPSNRLabel.setText(QtGui.QApplication.translate("MainWindow", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("MainWindow", "Video analyzer", None, QtGui.QApplication.UnicodeUTF8))
         self.menuOpen_video.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.actionOpen_video.setText(QtGui.QApplication.translate("MainWindow", "Open video...", None, QtGui.QApplication.UnicodeUTF8))
