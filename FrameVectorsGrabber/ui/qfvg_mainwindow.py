@@ -158,12 +158,17 @@ class QFVGMainWindow(QMainWindow):
         self.ui.framesTimelineListView2.setModel(model)
         self.ui.framesTimelineListView2.setItemDelegate(delegate)
 
-    def _frames_created(self, success):
+    def _frames_created(self, success, path=""):
         if self._wait_dialog:
             self._wait_dialog.close()
 
         if success:
             self._draw_frames_timeline()
+
+            if path:
+                print "Creo il video originale"
+                FFMpegWrapper.generate_video(path, path[path.rfind("/"):])
+
         else:
             print "Qualcosa e andato storto"
 

@@ -36,7 +36,7 @@ class Video(object):
                 self.frames.append( Frame(frames_output_path+"/"+file_name) )
 
         if self._video_loaded_callback:
-            self._video_loaded_callback(success)
+            self._video_loaded_callback(success, frames_output_path)
 
     def load(self, video_loaded_callback=None):
         self._video_loaded_callback = video_loaded_callback
