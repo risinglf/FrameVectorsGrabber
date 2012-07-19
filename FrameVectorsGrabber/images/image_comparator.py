@@ -96,6 +96,42 @@ class ImageComparator(object):
 
         return sum_MAD/(width*height)
 
+
+    @classmethod
+    def calculate_PSNR(cls, image1, image2, width, height):
+        image1_pixels = image1.load()
+        image2_pixels = image2.load()
+
+        MSE = 0
+        MAX = 255
+
+        for x in range(1, width):
+            for y in range(1, height):
+
+                red_1 = image1_pixels[x,y][0]
+                red_2 = image2_pixels[x,y][0]
+                delta_red = math.pow(red_1-red_2, 2)
+
+                green_1 = image1_pixels[x,y][1]
+                green_2 = image2_pixels[x,y][1]
+                delta_green = math.pow(green_1-green_2, 2)
+
+                blue_1 = image1_pixels[x,y][2]
+                blue_2 = image2_pixels[x,y][2]
+                delta_blue = math.pow(blue_1-blue_2, 2)
+
+
+                MSE += delta_red + delta_green +delta_blue
+
+
+        MSE /= (width*height*3)
+        if MSE != 0:
+            PSNR = 10* math.log( math.pow(MAX, 2)/MSE, 10)
+        else:
+            #Perfect Image, avoid division by zero
+            PSNR = 100000
+        return PSNR
+
     @classmethod
     def is_valid_coordinate(cls, x, y, block_size, pixels):
         try:
