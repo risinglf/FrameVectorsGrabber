@@ -17,6 +17,7 @@ from videos.video_interpolator import VideoInterpolator
 
 from videos.video import Video
 import time, math
+from utils.ffmpeg import FFMpegWrapper
 
 
 class QFVGMainWindow(QMainWindow):
@@ -110,6 +111,24 @@ class QFVGMainWindow(QMainWindow):
         self.ui.interpolatedFramesTimelineListView.setModel( QFramesTimelineListModel( interpolated_video ) )
         self.ui.interpolatedFramesTimelineListView.setItemDelegate( QFramesTimelineDelegate() )
 
+        klog("Calculating PSNR for frames...")
+        summed_PSNR = 0
+
+        for i in xrange(interpolated_video.frames_count()):
+            original_frame = self.video.frames[i]
+            new_frame = interpolated_video.frames[i]
+            PSNR = ImageComparator.calculate_PSNR( original_frame.image(), new_frame.image(), interpolated_video.width(), interpolated_video.height() )
+            klog("Frame %d\t\tPSNR:%d" %(i, PSNR))
+            if PSNR > 1000:
+                PSNR = 50
+            summed_PSNR += PSNR
+
+        PSNR = summed_PSNR/interpolated_video.frames_count()
+        klog("The interpolated video has a PSNR of %f" %PSNR)
+        self.ui.interpolatedVideoPSNRLabel.setText("%f" %PSNR )
+
+        klog("Saving the interpolated video...")
+        FFMpegWrapper.generate_video(frames_path, "interpolated_video.mp4")
 
     def searcher(self):
         search_type = self.ui.searchTypeComboBox.currentText()
@@ -396,6 +415,10 @@ class QFVGMainWindow(QMainWindow):
                 total_mads_checked += v["MAD_checks_count"]
 
             self.ui.MADsCheckedLabel.setText("%d" %total_mads_checked)
+
+            #Calculate the PSNR
+            PSNR = ImageComparator.calculate_PSNR(ImageConverter.qtimage_to_pil_image(self.image_2), ImageConverter.qtimage_to_pil_image(image2_new), self.image_2.width(), self.image_2.height())
+            self.ui.psnrFrame2Label.setText("%d" % PSNR)
 
     def _show_hide_search_parameters(self, search_type):
         if search_type == 0:
